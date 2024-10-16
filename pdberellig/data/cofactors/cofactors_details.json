@@ -1,0 +1,136 @@
+[{
+    "template": "TDPTHW",
+    "id": 1,
+    "representative": "TPP",
+    "threshold": 0.6
+}, {
+    "template": "FAD",
+    "id": 2,
+    "representative": "FAD",
+    "threshold": 0.87
+}, {
+    "template": "FMN",
+    "id": 3,
+    "representative": "FMN",
+    "threshold": 0.86
+}, {
+    "template": "NAD2",
+    "id": 4,
+    "representative": "NAD",
+    "threshold": 0.68
+}, {
+    "template": "PNS",
+    "id": 5,
+    "representative": "PNS",
+    "threshold": 1.0
+}, {
+    "template": "COAM",
+    "id": 6,
+    "representative": "COA",
+    "threshold": 0.67
+}, {
+    "template": "PLP",
+    "id": 7,
+    "representative": "PLP",
+    "threshold": 0.78
+}, {
+    "template": "0HG",
+    "id": 8,
+    "representative": "GSH",
+    "threshold": 0.42
+}, {
+    "template": "BTN",
+    "id": 9,
+    "representative": "BTN",
+    "threshold": 0.58
+}, {
+    "template": "FFO",
+    "id": 10,
+    "representative": "FFO",
+    "threshold": 0.94
+}, {
+    "template": "B12",
+    "id": 11,
+    "representative": "B12",
+    "threshold": 0.84
+}, {
+    "template": "ASC",
+    "id": 12,
+    "representative": "ASC",
+    "threshold": 1.0
+}, {
+    "template": "MQ7",
+    "id": 13,
+    "representative": "MQ7",
+    "threshold": 1.0
+}, {
+    "template": "UQ2",
+    "id": 14,
+    "representative": "UQ1",
+    "threshold": 0.53
+}, {
+    "template": "MSS",
+    "id": 15,
+    "representative": "MGD",
+    "threshold": 0.43
+}, {
+    "template": "H4B",
+    "id": 16,
+    "representative": "H4B",
+    "threshold": 0.78
+}, {
+    "template": "MDO",
+    "id": 17,
+    "representative": "MDO",
+    "threshold": 1.0
+}, {
+    "template": "SAM3",
+    "id": 18,
+    "representative": "SAM",
+    "threshold": 0.6
+}, {
+    "template": "F43",
+    "id": 19,
+    "representative": "F43",
+    "threshold": 0.94
+}, {
+    "template": "COM",
+    "id": 20,
+    "representative": "COM",
+    "threshold": 1.0
+}, {
+    "template": "TP7",
+    "id": 21,
+    "representative": "TP7",
+    "threshold": 0.75
+}, {
+    "template": "HEA",
+    "id": 22,
+    "representative": "HEA",
+    "threshold": 0.52
+}, {
+    "template": "DPM",
+    "id": 24,
+    "representative": "DPM",
+    "threshold": 0.97
+}, {
+    "template": "PQQ",
+    "id": 25,
+    "representative": "PQQ",
+    "threshold": 1.0
+}, {
+    "template": "1TY",
+    "id": 26,
+    "representative": "TPQ",
+    "threshold": 0.55
+}, {
+    "template": "TRQ",
+    "id": 27,
+    "representative": "TRQ",
+    "threshold": 0.88
+}, {
+    "template": "LPA",
+    "id": 28,
+    "representative": "LPA",
+    "threshold": 1.0
+}]
