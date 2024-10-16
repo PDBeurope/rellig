@@ -1,0 +1,30 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+default_language_version:
+    python: python3.10
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: detect-private-key
+      - id: trailing-whitespace
+      - id: fix-byte-order-marker
+      - id: end-of-file-fixer
+        # args: ["--maxkb=3000"]
+      - id: check-ast
+      - id: no-commit-to-branch
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9 # Ruff version.
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+  - repo: https://github.com/dzhu/rstfmt
+    rev: v0.0.14
+    hooks:
+      - id: rstfmt
+        name: rST Formatter
