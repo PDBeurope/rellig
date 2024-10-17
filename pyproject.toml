@@ -1,9 +1,13 @@
 [tool.poetry]
-name = "pdbrellig"
+name = "pdberellig"
 version = "0.1.1"
 description = "A toolkit for functional annotation of ligands in the PDB"
-authors = [{ name = "Ibrahim Roshan Kunnakkattu", email = "roshan@ebi.ac.uk"}]
+authors = ["Ibrahim Roshan Kunnakkattu <roshan@ebi.ac.uk>"]
 readme = "README.md"
+license = "Apache 2.0"
+repository="https://github.com/PDBeurope/rellig"
+keywords = ["PDB", "ligand", "cofactor", "reactant", "drug", "annotation"]
+
 classifiers = [
     "Environment :: Console",
     "Topic :: Scientific :: Bio-Informatics :: Cheminformatics",
@@ -17,8 +21,8 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-click = "^8.1.7"
-pdbeccdutils = "^0.8.6"
+click = "8.1.7"
+pdbeccdutils = "^0.8.5"
 requests = "^2.32.3"
 rdkit = "^2023.9.2"
 sparqlwrapper = "^2.0.0"
