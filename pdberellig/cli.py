@@ -19,10 +19,10 @@ def main():
 @main.command(
     "cofactors",
     help=(
-        "RELIc pipeline - cofactors mode\n"
+        "PDBe RelLig pipeline - cofactors mode\n"
         "=================\n\n"
-        "This pipeline processes CCD CIF files and looks for a similarity "
-        "to already established cofactors. Any matches are reported."
+        "This pipeline processes ligand CIF files from the PDB and "
+        "annotates them as cofactor-like molecules"
     ),
 )
 @click.option("--cif", type=str, required=True, help="path to input cif file")
@@ -45,10 +45,10 @@ def cofactors(cif: str, ligand_type: str, out_dir:str):
 @main.command(
     "reactants",
     help=(
-        "RELIc pipeline - reactants mode\n"
+        "PDBe RelLig pipeline - reactants mode\n"
         "=================\n\n"
-        "This pipeline processes Rhea database and establishes "
-        "similarities to reactants defined by ChEBI and CCD CIF."
+        "This pipeline processes ligand CIF files from the PDB and " 
+        "annotates them as reactant-like molecule"
     ),
 )
 @click.option("--cif", 
@@ -124,7 +124,7 @@ def reactants(
 
 @main.command(
     "similarities",
-    help="RELIc pipeline - similarities mode\n"
+    help="PDBe RelLig pipeline - similarities mode\n"
     "=================\n\n"
     "This pipeline establishes atom level substructure matches "
     "between a pair of chem comps.",
