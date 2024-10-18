@@ -27,6 +27,7 @@ requests = "^2.32.3"
 rdkit = "^2023.9.2"
 sparqlwrapper = "^2.0.0"
 pandas = "^2.2.3"
+gemmi = "^0.6.6"
 
 
 [tool.poetry.scripts]
