@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # software from PDBe: Protein Data Bank in Europe; https://pdbe.org
 #
-# Copyright 2019 EMBL - European Bioinformatics Institute
+# Copyright 2024 EMBL - European Bioinformatics Institute
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -22,17 +22,17 @@ Cofactors pipeline data model
 import json
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from multiprocessing import cpu_count
 from functools import lru_cache
-import pandas as pd
+from multiprocessing import cpu_count
 
+import pandas as pd
 from pdbeccdutils.core import ccd_reader
 
 from pdberellig.conf import get_config, get_data_dir
-from pdberellig.core.models import CompareObj, CofactorSim, Similarity
+from pdberellig.core.models import CofactorSim, CompareObj, Similarity
 from pdberellig.helpers.utils import (
-    init_rdkit_templates,
     get_ligand_intx_chains,
+    init_rdkit_templates,
     parse_ligand,
 )
 
@@ -52,10 +52,11 @@ class Cofactors:
     def process_entry(self) -> None:
         """Runs cofactor pipeline to check if a ligand
         acts a cofactor in the PDB
-            * Calculates similarity to template molecules of cofactor classes
-            * Calculates similarity to representative molecules of cofactor class
-            * Checks if EC numbers associated with ligand interacting chains in the PDB
-            has any overlap with EC numbers of cofactor classes
+
+        * Calculates similarity to template molecules of cofactor classes
+        * Calculates similarity to representative molecules of cofactor class
+        * Checks if EC numbers associated with ligand interacting chains in the PDB
+          has any overlap with EC numbers of cofactor classes
 
         """
         # parse ligand cif file

@@ -16,16 +16,15 @@
 # under the License.
 
 
+import gzip
 import os
 import re
-import gzip
 from datetime import datetime
-
 
 RE_EC_NO = re.compile(r"EC=[\d\.-]+|$")  # /$ returns '' if match cannot be found
 RE_CHEBI_ID = re.compile(r"CHEBI\:\d+")
 RE_RHEA_ID = re.compile(r"RHEA\:\d+|$")
-RE_DATE_MODIFIED = re.compile(r"^> <Last Modified>")    
+RE_DATE_MODIFIED = re.compile(r"^> <Last Modified>")
 RE_ENTRY_END = re.compile(r"^\$\$\$\$")
 RE_CHEBI_HOLDER = re.compile(r"^> <ChEBI ID>")
 
@@ -71,6 +70,3 @@ def get_cif_path(base_dir: str, ccd: str):
         base_dir (str): Path to the base directory of the ccd files."""
 
     return os.path.join(base_dir, ccd[0], ccd, f"{ccd}.cif")
-
-
-

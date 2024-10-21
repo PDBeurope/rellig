@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # software from PDBe: Protein Data Bank in Europe; https://pdbe.org
 #
-# Copyright 2019 EMBL - European Bioinformatics Institute
+# Copyright 2024 EMBL - European Bioinformatics Institute
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -19,12 +19,14 @@
 Drugs pipeline data model
 """
 
-import pandas as pd
-from pdbeccdutils.core.component import Component
-from pdberellig.helpers.utils import parse_ligand, get_ligand_intx_chains
-from collections import defaultdict
-from gemmi import cif
 import os
+from collections import defaultdict
+
+import pandas as pd
+from gemmi import cif
+from pdbeccdutils.core.component import Component
+
+from pdberellig.helpers.utils import get_ligand_intx_chains, parse_ligand
 
 
 class Drugs:

@@ -1,22 +1,42 @@
+#!/usr/bin/env python
+# software from PDBe: Protein Data Bank in Europe; https://pdbe.org
+#
+# Copyright 2024 EMBL - European Bioinformatics Institute
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on
+# an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied. See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+import os
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from multiprocessing import cpu_count
+from typing import Union
+
+import pandas as pd
 from rdkit import Chem
 
 from pdberellig.conf import get_config
-import os
-from collections import defaultdict
-import pandas as pd
-from typing import Union
-from multiprocessing import cpu_count
 from pdberellig.core.models import CompareObj
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from pdberellig.helpers.utils import (
-    get_ligand_intx_chains,
-    sparql_to_df,
     download_chebi,
+    get_ligand_intx_chains,
     parse_ligand,
+    sparql_to_df,
 )
 
 
 class Reactants:
+    """Reactants pipeline data model."""
+
     def __init__(self, log, args):
         self.log = log
         self.args = args
@@ -25,9 +45,10 @@ class Reactants:
         """
         Runs the pipeline for reactant-like annotation of the ligand
         and writes the results to tsv files
-            * parses ligand cif file
-            * fetches all ligand interacting PDB chains and corresponding uniprot ids
-            * calculates similarity to reactant participants
+
+        * parses ligand cif file
+        * fetches all ligand interacting PDB chains and corresponding uniprot ids
+        * calculates similarity to reactant participants
         """
 
         component = parse_ligand(self.args.cif, self.args.ligand_type)
@@ -70,16 +91,15 @@ class Reactants:
         """
         Returns PARITY similarity of the ligand to all reaction participants corresponding to the
         input list of uniprot ids
-            * Fetches rhea_ids corresponding to all the reactions participated
-            by the list of proteins (uniprot_ids)
-            * Fetches ChEBI ids of reaction participants present in the list of
-            reactions
-            * Calculates PARITY similarity of input ligand to the list of ChEBI molecules
+        * Fetches rhea_ids corresponding to all the reactions participated
+        by the list of proteins (uniprot_ids)
+        * Fetches ChEBI ids of reaction participants present in the list of
+        reactions
+        * Calculates PARITY similarity of input ligand to the list of ChEBI molecules
 
         Args:
             ligand: CompareObj of ligand
-            uniprot_ids: list of uniprot_ids corresponding to the ligand interacting
-            PDB chains
+            uniprot_ids: list of uniprot_ids corresponding to the ligand interacting PDB chains
         """
 
         # get reactions corresponding to the list of uniprot_ids
@@ -255,7 +275,7 @@ class Reactants:
 
         return reactions
 
-    def get_reaction_participants(self, rhea_ids: list[str]):
+    def get_reaction_participants(self, rhea_ids: list[str]) -> pd.DataFrame:
         """
         Fetches ChEBI ids of all the reaction participants
         corresponding to the input list of rhea_ids using

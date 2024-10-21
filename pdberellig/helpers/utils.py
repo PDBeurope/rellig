@@ -22,23 +22,22 @@ Various utilities used in the pipeline
 import logging
 import os
 import sys
+from collections import defaultdict
 
+import pandas as pd
 import pdbeccdutils
 import rdkit
+import requests
 from pdbeccdutils.core import ccd_reader, clc_reader, prd_reader
 from pdbeccdutils.core.component import Component
 from rdkit import Chem
+from requests.adapters import HTTPAdapter
+from SPARQLWrapper import JSON, SPARQLWrapper
+from urllib3 import Retry
 
 import pdberellig
-from pdberellig.core.models import CompareObj
-
-import requests
-from requests.adapters import HTTPAdapter
-from urllib3 import Retry
-from SPARQLWrapper import SPARQLWrapper, JSON
-from collections import defaultdict
-import pandas as pd
 from pdberellig.conf import get_config
+from pdberellig.core.models import CompareObj
 
 
 def setup_log(stage, mode):
