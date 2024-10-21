@@ -1,6 +1,6 @@
-# This workflow will install Python dependencies, and generate documentation.
+# This workflow will install dev dependencies, and generate documentation.
 
-name: ccdutils documentation
+name: pdberellig documentation
 
 on:
   push:
