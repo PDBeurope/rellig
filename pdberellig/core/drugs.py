@@ -59,8 +59,10 @@ class Drugs:
             return
 
         ligand_drug_targets = pd.merge(
-            ligand_intx_chains,
-            drug_targets[["uniprit_id", "name", "organism"]],
+            ligand_intx_chains[
+                ["pdb_id", "auth_asym_id", "struct_asym_id", "uniprot_id"]
+            ],
+            drug_targets[["uniprot_id", "name", "organism"]],
             on="uniprot_id",
             how="inner",
         )
