@@ -9,7 +9,7 @@ The pipeline analyzes input PDB ligands, then retrieves the proteins interacting
 
 ## Example
 
-PDBe RelLig pipeline identifies 1CP (COPROPORPHYRINOGEN I) as reactant-like molecule and writes the output with interacting proteins from the PDB and similarities to reaction participants present in the reactions catalysed the the protein.
+PDBe RelLig pipeline identifies 1CP (COPROPORPHYRINOGEN I) as reactant-like molecule and writes the output with interacting proteins from the PDB and similarities to reaction participants present in the reactions catalysed the protein.
 
 | pdb_id | auth_asym_id | struct_asym_id | uniprot_id | rhea_id | chebi_id | similarity |
 | --- | --- | --- | --- | --- | --- | --- |

@@ -1,3 +1,5 @@
+![License](https://img.shields.io/github/license/pdbeurope/rellig)
+
 # PDBe RelLig
 
 ## Relevant Ligands in PDB
@@ -25,6 +27,7 @@ There are three modes of pipelines:
 ```bash
 $ pdberellig cofactors --cif <path_to_ligand_cif_file> --ligand_type <type_of_ligand> --out-dir <path_to_output>
 ```
+**pipeline inputs**
 
 ```bash
 Options:
@@ -33,8 +36,9 @@ Options:
   --out-dir TEXT               path to output directory  [required]
   --help                       Show this message and exit.
 ```
+**pipeline outputs**
 
-<ligand_id>_cofactor_annotation.json - A json file containing ligand interacting PDB chains and similarity to template and representative molecules of cofactor classes .
+<ligand_id>_cofactor_annotation.json - a json file containing ligand interacting proteins and similarity to template and representative molecules of cofactor classes .
 
 Example
 
@@ -89,15 +93,31 @@ Options:
 
 **pipeline outputs**
 
-<ligand_id>_reactant_annotation.tsv - A tsv file containing
+<ligand_id>_reactant_annotation.tsv - A tsv file containing ligand interacting proteins and similarity to the reaction participants present in the reactions catalysed the protein
 
+Example
+
+| pdb_id | auth_asym_id | struct_asym_id | uniprot_id | rhea_id | chebi_id | similarity |
+| --- | --- | --- | --- | --- | --- | --- |
+|1r3q | A | A | P06132 | 19865 | 57308 | 0.714
+|1r3q | A | A | P06132 | 31239 | 62626 | 0.8
+|1r3q | A | A | P06132 | 31239 | 62631 | 1.0
+|1r3s | A | A | P06132 | 19865 | 57308 | 0.714
+|1r3s | A | A | P06132 | 31239 | 62626 | 0.8
+|1r3s | A | A | P06132 | 31239 | 62631 | 1.0
+|1r3v | A | A | P06132 | 19865 | 57308 | 0.714
+|1r3v | A | A | P06132 | 31239 | 62626 | 0.8
+|1r3v | A | A | P06132 | 31239 | 62631 | 1.0
 ---
+
 
 ### drugs
 
 ```bash
 $ pdberellig drugs --cif <path_to_ligand_cif_file> --ligand_type <type_of_ligand> --out-dir <path_to_output>
 ```
+**pipeline inputs**
+
 ```bash
 Options:
   --cif TEXT                   path to input cif file  [required]
@@ -105,3 +125,19 @@ Options:
   --ligand-type [CCD|PRD|CLC]  type of ligand in the PDB  [required]
   --help                       Show this message and exit.
 ```
+**pipeline outputs**
+
+<ligand_id>_drug_annotation.tsv - a tsv file containing ligand interacting pharmacologically active drug-targets
+
+Example
+
+| pdb_id | auth_asym_id | struct_asym_id | uniprot_id | name | organism |
+| --- | --- | --- | --- | --- | --- |
+| 7n9g | A | A | P00519 | Tyrosine-protein kinase ABL1 | Humans |
+| 3pyy | B | B | P00519 | Tyrosine-protein kinase ABL1 | Humans |
+| 6npu | B | B | P00519 | Tyrosine-protein kinase ABL1 | Humans |
+| 6npe | A | A | P00519 | Tyrosine-protein kinase ABL1 | Humans |
+| 2hyy | A | A | P00519 | Tyrosine-protein kinase ABL1 | Humans |
+| 6npu | A | A | P00519 | Tyrosine-protein kinase ABL1 | Humans |
+| 6npv | B | B | P00519 | Tyrosine-protein kinase ABL1 | Humans |
+| 6npe | B | B | P00519 | Tyrosine-protein kinase ABL1 | Humans |
