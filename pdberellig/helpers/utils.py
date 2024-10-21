@@ -19,10 +19,9 @@
 Various utilities used in the pipeline
 """
 
-
-import io
 import logging
 import os
+import sys
 
 import pdbeccdutils
 import rdkit
@@ -30,9 +29,8 @@ from pdbeccdutils.core import ccd_reader, clc_reader, prd_reader
 from pdbeccdutils.core.component import Component
 from rdkit import Chem
 
-import pdbe_relic
-from pdbe_relic.helpers.file_utils import get_cif_path
-from pdbe_relic.core.models import CompareObj
+import pdberellig
+from pdberellig.core.models import CompareObj
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -40,7 +38,7 @@ from urllib3 import Retry
 from SPARQLWrapper import SPARQLWrapper, JSON
 from collections import defaultdict
 import pandas as pd
-from pdbe_relic.conf import get_config
+from pdberellig.conf import get_config
 
 
 def setup_log(stage, mode):
@@ -51,17 +49,16 @@ def setup_log(stage, mode):
         mode (str): Mode of the application.
     """
     frm = "[%(asctime)-15s] %(name)s:%(levelname)s:%(message)s"
-    logging.basicConfig(
-        level=logging.DEBUG, format=frm, datefmt="%d %b %Y %H:%M:%S"
-    )
-    log = logging.getLogger(mode)
 
-    stream = logging.StreamHandler(io.StringIO())
+    log = logging.getLogger(mode)
+    log.setLevel(logging.DEBUG)
+
+    stream = logging.StreamHandler(sys.stdout)
     stream.setLevel(logging.INFO)
     stream.setFormatter(logging.Formatter(frm))
     log.addHandler(stream)
 
-    log.info(f"RELIc {stage} started | {mode}    v.{pdbe_relic.__version__}")
+    log.info(f"PDBe RelLig {stage} started | {mode}    v.{pdberellig.__version__}")
     log.info("Used packages:")
     log.info(f"  rdkit {rdkit.__version__}")
     log.info(f"  pdbeccdutils {pdbeccdutils.__version__}")
@@ -75,8 +72,11 @@ def init_rdkit_templates(path) -> list[CompareObj]:
     Args:
         path (str): Path to the directory with templates
     """
-    
-    templates = [CompareObj(x.split(".")[0], Chem.MolFromMolFile(os.path.join(path, x))) for x in os.listdir(path)]
+
+    templates = [
+        CompareObj(x.split(".")[0], Chem.MolFromMolFile(os.path.join(path, x)))
+        for x in os.listdir(path)
+    ]
 
     return templates
 
@@ -100,7 +100,6 @@ def requests_retry_session(
     status_forcelist=(429, 500, 502, 503, 504),
     session=None,
 ):
-
     session = session or requests.Session()
     retry = Retry(
         total=retries,
@@ -117,7 +116,7 @@ def requests_retry_session(
 
 
 def get_ligand_intx_chains(ligand_id: str) -> pd.DataFrame:
-    """Returns the details of ligand interacting 
+    """Returns the details of ligand interacting
     PDB chains including chain numbers,uniprot ids
     and ec number by calling PDBe API
 
@@ -132,15 +131,20 @@ def get_ligand_intx_chains(ligand_id: str) -> pd.DataFrame:
         )
         response.raise_for_status()
         ligand_intx_chains = response.json()
-        ligand_intx_chains_df = pd.DataFrame.from_records(ligand_intx_chains.get(ligand_id, {}))
+        ligand_intx_chains_df = pd.DataFrame.from_records(
+            ligand_intx_chains.get(ligand_id, {})
+        )
         if "ec_number" in ligand_intx_chains_df.columns:
-            ligand_intx_chains_df["ec_number"] = ligand_intx_chains_df["ec_number"].str.replace(".-", "")
+            ligand_intx_chains_df["ec_number"] = ligand_intx_chains_df[
+                "ec_number"
+            ].str.replace(".-", "")
     except requests.exceptions.HTTPError as err:
         if err.response.status_code == 404:
             ligand_intx_chains_df = pd.DataFrame()
-    
+
     return ligand_intx_chains_df
-    
+
+
 def sparql_to_df(query, sparql_url: str) -> pd.DataFrame:
     """
     Returns the result of input sparql query as
@@ -149,8 +153,8 @@ def sparql_to_df(query, sparql_url: str) -> pd.DataFrame:
     Args:
         sparql_url: input sparql query
     """
-    sparql=SPARQLWrapper(sparql_url)
-    sparql.method = 'POST'   
+    sparql = SPARQLWrapper(sparql_url)
+    sparql.method = "POST"
     sparql.setQuery(query)
     sparql.setReturnFormat(JSON)
     results = defaultdict(list)
@@ -163,6 +167,7 @@ def sparql_to_df(query, sparql_url: str) -> pd.DataFrame:
 
     return results_df
 
+
 def download_chebi(out_folder: str) -> str:
     """
     Downloads the structures.csv.gz file from
@@ -174,14 +179,17 @@ def download_chebi(out_folder: str) -> str:
     chebi_structures_url = get_config("reactant", "chebi_structure_file")
     response = requests_retry_session().get(chebi_structures_url)
     response.raise_for_status()
-    chebi_structure_file = os.path.join(out_folder, os.path.basename(chebi_structures_url))
-    
+    chebi_structure_file = os.path.join(
+        out_folder, os.path.basename(chebi_structures_url)
+    )
+
     with open(chebi_structure_file, "wb") as fh:
         fh.write(response.content)
 
     return chebi_structure_file
 
-def parse_ligand(cif_path: str, ligand_type:str) -> Component:
+
+def parse_ligand(cif_path: str, ligand_type: str) -> Component:
     """
     Parse cif file of ligand and returns Component object
 
