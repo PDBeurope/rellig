@@ -1,6 +1,4 @@
-```{eval-rst}
-.. _cofactors
-```
+
 # Cofactors
 
 The PDBe RelLig pipeline automatically identifies cofactor-like ligands in the PDB by comparing their 2D structural similarity to cofactor classes found in the [CoFactor database](https://www.ebi.ac.uk/thornton-srv/databases/CoFactor/). The CoFactor database contains 27 manually curated classes of organic enzyme cofactors and information about the associated enzymes, including their EC numbers. For each cofactor class, a representative small molecule was selected from the PDB based on its close structural match to the template molecule using [PARITY similarity](https://doi.org/10.1016/j.str.2018.02.009). A minimum similarity threshold was also defined, and the list of enzyme EC numbers was expanded using data from BRENDA.

@@ -1,6 +1,4 @@
-```{eval-rst}
-.. _drugs
-```
+
 # Drugs
 
 The PDBe RelLig pipeline identifies drug-like ligands in the PDB by utilizing drug-target annotations found in the ligand CIF files available from the [PDBe FTP](https://ftp.ebi.ac.uk/pub/databases/msd/pdbechem_v2/). These CIF files are updated weekly and include drug-target data sourced from the [DrugBank database](https://go.drugbank.com/).

@@ -1,6 +1,3 @@
-```{eval-rst}
-.. _reactants
-```
 # Reactants
 
 The PDBe RelLig pipeline identifies reactant-like ligands in the PDB by comparing their 2D structural similarity to reactants in the [Rhea database](https://www.rhea-db.org/), a curated resource that uses the [ChEBI ontology](https://www.ebi.ac.uk/chebi/) to describe reaction participants and their structures.
