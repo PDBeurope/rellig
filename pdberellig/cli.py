@@ -5,8 +5,8 @@ import click
 
 from pdberellig.conf import get_config
 from pdberellig.core.cofactors import Cofactors
-from pdberellig.core.reactants import Reactants
 from pdberellig.core.drugs import Drugs
+from pdberellig.core.reactants import Reactants
 from pdberellig.helpers.utils import setup_log
 
 
