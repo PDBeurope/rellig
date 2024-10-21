@@ -3,32 +3,22 @@
 ```
 # Cofactors
 
-The aim of the project is to incorporate cofactor information from [Cofactor database](https://www.ebi.ac.uk/thornton-srv/databases/CoFactor/) into PDBe infrastructure and provide weekly updates to the functional annotation of PDB entries.
-
-The cofactor information is divided into 27 different classes. Each class contains a list of HET codes (ligands) that are members of the given cofactor class and a list of EC numbers which represent enzymes where these ligands act as cofactors.
-
-There is also the [paper](https://doi.org/10.1093/bioinformatics/btz115) which describes the process and a few related things.
-
-## Database content
-
-Oracle database contains ``COFACTOR`` user that has access to the cofactor information in the following tables:
-
-* ``COFACTOR`` - Contains just general description taken from the Cofactor database.
-* ``COFACTOR_CLASS`` - Contains db mapping between cofactor class name and id
-* ``COFACTOR_GROUP`` - No clue.
-* ``COFACTOR_GROUP_REF`` - No clue.
-* ``EC_COFACTOR`` - Mapping between cofactor class and EC numbers.
-* ``HET_GROUPS`` - Mapping between cofactor class and HET codes. The parity score given is a similarity between a ligand and cofactor class representative not the template!!
+The PDBe RelLig pipeline automatically identifies cofactor-like ligands in the PDB by comparing their 2D structural similarity to cofactor classes found in the [CoFactor database](https://www.ebi.ac.uk/thornton-srv/databases/CoFactor/). The CoFactor database contains 27 manually curated classes of organic enzyme cofactors and information about the associated enzymes, including their EC numbers. For each cofactor class, a representative small molecule was selected from the PDB based on its close structural match to the template molecule using [PARITY similarity](https://doi.org/10.1016/j.str.2018.02.009). A minimum similarity threshold was also defined, and the list of enzyme EC numbers was expanded using data from BRENDA.
 
 ## Annotation process
 
-First, all the ligands are compared with templates for a given cofactor class using PARITY method implemented as a part of [pdbecccdutils](https://pdbe.gitdocs.ebi.ac.uk/ccdutils/) package. Ligands that can be part of polymers (that is `_chem_comp.type` !=  `non-polymer`) and those that can be subcomponents of other ligands are discarded.  If the similarity score is equal to, or above threshold defined for a given class, the ligand is further compared to the cofactor class representative. If the similarity score does not drop below defined threshold and the ligand is found in a PDB entry with EC number approved for the ligand class, the ligand is immediately marked as cofactor and CSV generating table `HET_GROUPS` is updated.
+The pipeline analyzes input PDB ligands by calculating their similarity to template molecules in each cofactor class. If the similarity meets the minimum threshold for any cofactor class, the ligand is further compared to the representative molecule of that class. If the similarity remains above the threshold and the ligand interacts with a protein that has an EC number matching the cofactor class, the ligand is classified as [cofactor-like](https://doi.org/10.1093/bioinformatics/btz115).
 
-If the ligand's similarity score to cofactor class representative drops or the ligand is found in the PDB entry with EC number not found in the cofactor database a manual intervention is necessary. The process for manual intervention is described below. Also, cofactor classes, templates and their thresholds made by Abhik can be found in the table below:
+
+
+
+## Data
+
+Details of templates, representatives, thresholds and ec numbers used for the cofactor classes can be found in the folder ``pdberellig/data/cofactors``.
 
 | Class id     | Template     | Representative | Threshold |
 |----------    |----------    |:--------------:|----------:|
-|1          |TDPTHW     |[TDP](https://pdbe.org/chem/TDP)             |0.6        |
+|1          |TDPTHW     |[TPP](https://pdbe.org/chem/TDP)             |0.6        |
 |2          |FAD        |[FAD](https://pdbe.org/chem/FAD)             |0.87       |
 |3          |FMN        |[FMN](https://pdbe.org/chem/FMN)             |0.86       |
 |4          |NAD2       |[NAD](https://pdbe.org/chem/NAD)             |0.68       |
@@ -57,36 +47,75 @@ If the ligand's similarity score to cofactor class representative drops or the l
 |28         |LPA        |[LPA](https://pdbe.org/chem/LPA)             |1.0        |
 
 
-Templates used for the cofactor similarity perception can be found as a part of ``relic`` package in the folder ``relic/data/cofactors/templates``.
 
-## Manual annotation process
-
-Whenever the pipeline cannot make an automatic guess on whether or not the ligand under questions is a cofactor a human intervention is necessary. This can happen in a certain number of cases:
-
-During the process you may need to modify either of these files:
-
-* ``/nfs/msd/release/data/cofactor/cofactors.backlog.json`` - This file contains all the ligands which needs to be either integrated in the database or scraped. After you process a ligand, please delete the entry from JSON file.
-
-* ``/nfs/msd/release/data/cofactor/het_groups.csv`` - Modify this file to add het codes to the cofactor database. The Parity score represents a similarity of het code under question and cofactor class representative.
-
-* ``/nfs/msd/release/data/cofactor/ec_cofactor.csv`` - Modify this file to add ec numbers to the cofactor database.
-
-### EC number mismatch
-
-The new ligand has a similarity to both template and representative, however, it is not found in the pdb entry with mapping to known EC classes for this cofactor class. Please verify that the ligand acts as a cofactor and add enzyme EC number to the database.
-
-### Similarity score decreased
-
-In certain cases the similarity score for ligand-representative is significantly lower than for ligand-template. These cases are generally interesting as it may mean that either representative or threshold was selected incorectly and needs special attention. Please contact ``Lukas Pravda (lpravda@ebi.ac.uk)`` who maintans the pipeline for further information.
 
 ## Examples
 
-Cofactor class 1 - [TDP](https://pdbe.org/chem/TDP) cofactor class representative (framed) some other cofactor class representatives as identified by the pipeline: [8EL](https://pdbe.org/chem/8EL) (similarity: 1.0); [8EF](https://pdbe.org/chem/8EF) (similarity: 1.0); or [8FL](https://pdbe.org/chem/8FL) (similarity: 0.963);
+PDBe RelLig pipeline identifies the PDB Ligand 8FL as a cofactor-like molecule similar to TPP (Thiamine Diphosphate) and writes the outputs with ligand interacting proteins from the PDB with corresponding EC numbers.
 
-<div align='center'>
-    <img style="border: 2px solid black" alt="TDP" src='https://www.ebi.ac.uk/pdbe-srv/pdbechem/image/showNew?code=TDP&size=300' />
-    <img alt="8EL" src='https://www.ebi.ac.uk/pdbe-srv/pdbechem/image/showNew?code=8EL&size=300' />
-    <img alt="8EF" src='https://www.ebi.ac.uk/pdbe-srv/pdbechem/image/showNew?code=8EF&size=300' />
-    <img alt="8FL" src='https://www.ebi.ac.uk/pdbe-srv/pdbechem/image/showNew?code=8FL&size=300' />
+```json
+{
+    "8FL": {
+        "template": {
+            "id": "TDPTHW",
+            "similarity": 0.722
+        },
+        "representative": {
+            "id": "TPP",
+            "similarity": 0.963
+        },
+        "pdb_chains": [
+            {
+                "pdb_id": "5xvt",
+                "auth_asym_id": "A",
+                "struct_asym_id": "A",
+                "uniprot_id": "P34736",
+                "ec_number": "2.2.1.1"
+            },
+            {
+                "pdb_id": "5xuf",
+                "auth_asym_id": "A",
+                "struct_asym_id": "A",
+                "uniprot_id": "P34736",
+                "ec_number": "2.2.1.1"
+            },
+            {
+                "pdb_id": "8vzb",
+                "auth_asym_id": "D",
+                "struct_asym_id": "D",
+                "uniprot_id": "A0A3C0TX30",
+                "ec_number": "4.1.1.8"
+            },
+            {
+                "pdb_id": "8vzb",
+                "auth_asym_id": "A",
+                "struct_asym_id": "A",
+                "uniprot_id": "A0A3C0TX30",
+                "ec_number": "4.1.1.8"
+            },
+            {
+                "pdb_id": "8vza",
+                "auth_asym_id": "C",
+                "struct_asym_id": "C",
+                "uniprot_id": "A0A3C0TX30",
+                "ec_number": "4.1.1.8"
+            },
+            {
+                "pdb_id": "8vza",
+                "auth_asym_id": "B",
+                "struct_asym_id": "B",
+                "uniprot_id": "A0A3C0TX30",
+                "ec_number": "4.1.1.8"
+            },
+            {
+                "pdb_id": "8vzb",
+                "auth_asym_id": "B",
+                "struct_asym_id": "B",
+                "uniprot_id": "A0A3C0TX30",
+                "ec_number": "4.1.1.8"
+            }
+        ]
+    }
+}
 
-</div>
+```
