@@ -10,7 +10,7 @@ from pdberellig.core.drugs import Drugs
 from pdberellig.helpers.utils import setup_log
 
 
-@click.group("CLI", help="CLI for relic pipelines.")
+@click.group("CLI", help="CLI for pdberellig pipelines.")
 def main():
     """Application entry point."""
     return 0

@@ -1,18 +1,19 @@
 from rdkit import Chem
 
-from pdbe_relic.conf import get_config
+from pdberellig.conf import get_config
 import os
 from collections import defaultdict
 import pandas as pd
 from typing import Union
 from multiprocessing import cpu_count
-from pdbe_relic.core.models import CompareObj
+from pdberellig.core.models import CompareObj
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from pdbe_relic.helpers.utils import (
+from pdberellig.helpers.utils import (
     get_ligand_intx_chains,
     sparql_to_df,
     download_chebi,
-    parse_ligand)
+    parse_ligand,
+)
 
 
 class Reactants:
@@ -22,43 +23,50 @@ class Reactants:
 
     def process_entry(self) -> None:
         """
-        Runs the pipeline for reactant-like annotation of the ligand 
+        Runs the pipeline for reactant-like annotation of the ligand
         and writes the results to tsv files
             * parses ligand cif file
             * fetches all ligand interacting PDB chains and corresponding uniprot ids
-            * calculates similarity to reactant participants 
+            * calculates similarity to reactant participants
         """
+
         component = parse_ligand(self.args.cif, self.args.ligand_type)
         ligand_id = component.id
         if len(component.mol_no_h.GetAtoms()) < self.args.minimal_ligand_size:
             # ligand is too small.
-            self.log.debug(f"""Number of atoms in {ligand_id} is less than 
-                           {self.args.minimal_ligand_size}, 
+            self.log.debug(f"""Number of atoms in {ligand_id} is less than
+                           {self.args.minimal_ligand_size},
                            hence skipping""")
-            return 
-    
+            return
+
         ligand = CompareObj(component.id, component.mol_no_h)
 
         # get ligand interacting PDB chains
         intx_chains = get_ligand_intx_chains(ligand.id)
         if intx_chains.empty:
             self.log.warn(f"No interacting PDB chain was found for {ligand.id}")
-            return 
-        
+            return
+
         uniprot_ids = intx_chains.get("uniprot_id").to_list()
 
-        #get similarity to reaction participants
+        # get similarity to reaction participants
         reactants_sim = self.get_reactant_annotation(ligand, uniprot_ids)
         if not reactants_sim.empty:
-            intx_chains_reac_sim = pd.merge(intx_chains[["pdb_id","auth_asym_id","struct_asym_id","uniprot_id"]],
-                                            reactants_sim,
-                                            on="uniprot_id",
-                                            how="inner")
-            reactants_sim_file = os.path.join(self.args.out_dir, f"{ligand.id}_reactant_annotation.tsv")
+            intx_chains_reac_sim = pd.merge(
+                intx_chains[["pdb_id", "auth_asym_id", "struct_asym_id", "uniprot_id"]],
+                reactants_sim,
+                on="uniprot_id",
+                how="inner",
+            )
+            reactants_sim_file = os.path.join(
+                self.args.out_dir, f"{ligand.id}_reactant_annotation.tsv"
+            )
+            self.log.info(f"Writing reactant annotations to {reactants_sim_file}")
             intx_chains_reac_sim.to_csv(reactants_sim_file, sep="\t", index=False)
 
-    
-    def get_reactant_annotation(self, ligand: CompareObj, uniprot_ids: list[str]) -> pd.DataFrame:
+    def get_reactant_annotation(
+        self, ligand: CompareObj, uniprot_ids: list[str]
+    ) -> pd.DataFrame:
         """
         Returns PARITY similarity of the ligand to all reaction participants corresponding to the
         input list of uniprot ids
@@ -66,7 +74,7 @@ class Reactants:
             by the list of proteins (uniprot_ids)
             * Fetches ChEBI ids of reaction participants present in the list of
             reactions
-            * Calcualtes PARITY similarity of input ligand to the list of ChEBI molecules 
+            * Calculates PARITY similarity of input ligand to the list of ChEBI molecules
 
         Args:
             ligand: CompareObj of ligand
@@ -85,7 +93,9 @@ class Reactants:
         # get ChEBI ids of all the reaction participants
         reaction_participants_df = self.get_reaction_participants(rhea_ids)
         if reaction_participants_df.empty:
-            self.log.warn(f"No reaction participants was fetched from Rhea for {rhea_ids}")
+            self.log.warn(
+                f"No reaction participants was fetched from Rhea for {rhea_ids}"
+            )
             return pd.DataFrame()
 
         chebi_ids = reaction_participants_df.get("chebi_id").to_list()
@@ -100,24 +110,21 @@ class Reactants:
             self.log.info(f"No similar reaction participant was found for {ligand.id}")
             return pd.DataFrame()
 
-        reaction_chebi = pd.merge(reactions,
-                                  reaction_participants_df,
-                                  on="rhea_id",
-                                  how="inner")
-        
-        reaction_chebi_sim = pd.merge(reaction_chebi,
-                                      chebi_similarities_df,
-                                      on="chebi_id",
-                                      how="inner")
-        
+        reaction_chebi = pd.merge(
+            reactions, reaction_participants_df, on="rhea_id", how="inner"
+        )
+
+        reaction_chebi_sim = pd.merge(
+            reaction_chebi, chebi_similarities_df, on="chebi_id", how="inner"
+        )
+
         return reaction_chebi_sim
-    
-    
+
     def parse_chebi(self, chebi_ids: list[str]) -> list[CompareObj]:
         """
         Parse ChEBI mol files from chebi_structure_file
-        using RDKit and return as a list of CompareObj. If the 
-        update option is enabled new strcuture file is downloaded from ChEBI FTP. 
+        using RDKit and return as a list of CompareObj. If the
+        update option is enabled new structure file is downloaded from ChEBI FTP.
 
         Args:
          chebi_ids: list of chebi ids
@@ -132,29 +139,34 @@ class Reactants:
             chebi_structure_file = self.args.chebi_structure_file
         else:
             chebi_structure_file = download_chebi(self.args.out_dir)
-        
+
         self.chebi = pd.read_csv(chebi_structure_file, dtype=str)
-        self.chebi = self.chebi.loc[(self.chebi["COMPOUND_ID"].isin(chebi_ids)) &
-                                (self.chebi["TYPE"]=="mol") &
-                                (self.chebi["DEFAULT_STRUCTURE"]=="Y"), ["COMPOUND_ID", "STRUCTURE"]]
+        self.chebi = self.chebi.loc[
+            (self.chebi["COMPOUND_ID"].isin(chebi_ids))
+            & (self.chebi["TYPE"] == "mol")
+            & (self.chebi["DEFAULT_STRUCTURE"] == "Y"),
+            ["COMPOUND_ID", "STRUCTURE"],
+        ]
         for _, row in self.chebi.iterrows():
             try:
                 chebi_mol = Chem.MolFromMolBlock(row["STRUCTURE"])
                 chebi_mol_no_h = Chem.RemoveHs(chebi_mol)
                 if len(chebi_mol_no_h.GetAtoms()) < self.args.minimal_ligand_size:
-                        # chebi is too small.
-                        self.log.debug(f"""Number of atoms in {row["COMPOUND_ID"]} is less 
-                                    than {self.args.minimal_ligand_size}, 
+                    # chebi is too small.
+                    self.log.debug(f"""Number of atoms in {row["COMPOUND_ID"]} is less
+                                    than {self.args.minimal_ligand_size},
                                     hence skipping""")
                 else:
                     templates.append(CompareObj(row["COMPOUND_ID"], chebi_mol_no_h))
 
             except Exception:
-                    self.log.warn(f"Couldn't parse {row['COMPOUND_ID']} using RDKit")
-        
+                self.log.warn(f"Couldn't parse {row['COMPOUND_ID']} using RDKit")
+
         return templates
 
-    def get_similarities(self, query: CompareObj, templates: list[CompareObj]) -> dict[str, list[Union[str, float]]]:
+    def get_similarities(
+        self, query: CompareObj, templates: list[CompareObj]
+    ) -> dict[str, list[Union[str, float]]]:
         """
         Returns PARITY similarity of query molecules to ChEBI
         structures present in the list of templates
@@ -166,10 +178,10 @@ class Reactants:
         chebi_similarities = defaultdict(list)
         threshold = float(get_config("main", "reactants_threshold"))
         with ThreadPoolExecutor(max_workers=cpu_count() - 1) as exec:
-            future_to_result = {exec.submit(template.similarity_to, 
-                                            query, 
-                                            threshold):template.id
-                                for template in templates}
+            future_to_result = {
+                exec.submit(template.similarity_to, query, threshold): template.id
+                for template in templates
+            }
 
             for future in as_completed(future_to_result):
                 template = future_to_result[future]
@@ -182,14 +194,15 @@ class Reactants:
                         )
                     if template_sim.result.similarity_score >= threshold:
                         chebi_similarities["chebi_id"].append(template_sim.target_id)
-                        chebi_similarities["similarity"].append(round(template_sim.result.similarity_score, 3))
+                        chebi_similarities["similarity"].append(
+                            round(template_sim.result.similarity_score, 3)
+                        )
 
                 except Exception as exc:
-                    self.log.warn('%r generated an exception: %s' % (template, exc))
-                        
+                    self.log.warn("%r generated an exception: %s" % (template, exc))
+
         return chebi_similarities
-                    
-    
+
     def get_reactions(self, uniprot_ids: list[str]) -> pd.DataFrame:
         """
         Fetches rhea_ids of all the reactions corresponding to the input
@@ -197,18 +210,20 @@ class Reactants:
 
         Args:
             uniprot_ids: a list of uniprot_ids
-        
+
         Returns:
             a datarame of uniprot_ids and rhea_ids
         """
 
-
-        #Refer https://sparql.uniprot.org/.well-known/sparql-examples/ for examples of
-        #saprql queries in uniprot
+        # Refer https://sparql.uniprot.org/.well-known/sparql-examples/ for examples of
+        # saprql queries in uniprot
         sparql_uniprot_url = "https://sparql.uniprot.org/sparql"
-        proteins = " ".join([f"(uniprotkb:{uniprot_id})" for uniprot_id in uniprot_ids if uniprot_id])
-        
-        reaction_query="""
+        proteins = " ".join(
+            [f"(uniprotkb:{uniprot_id})" for uniprot_id in uniprot_ids if uniprot_id]
+        )
+
+        reaction_query = (
+            """
             #endpoint: https://sparql.uniprot.org/sparql
             #query: retrieve all reactions corresponding to a list of proteins.
 
@@ -218,25 +233,28 @@ class Reactants:
             SELECT DISTINCT
             ?uniprot_id
             ?rhea_id
-                
+
             WHERE {
             VALUES (?protein) {
-                """ + proteins + """
+                """
+            + proteins
+            + """
             }
-            
+
             ?protein up:annotation ?annotation .
             ?annotation up:catalyticActivity ?ca .
             ?ca up:catalyzedReaction ?reaction .
             BIND(SUBSTR(STR(?protein),33) AS ?uniprot_id) .
             BIND(SUBSTR(STR(?reaction),24) AS ?rhea_id) .
-            
+
             }
             """
+        )
 
         reactions = sparql_to_df(reaction_query, sparql_uniprot_url)
-    
+
         return reactions
-    
+
     def get_reaction_participants(self, rhea_ids: list[str]):
         """
         Fetches ChEBI ids of all the reaction participants
@@ -244,28 +262,31 @@ class Reactants:
         Rhea sparql endpoint
 
         Args:
-            rhea_ids: a list of rhea_ids 
-        
+            rhea_ids: a list of rhea_ids
+
         Returns:
             a dataframe of rhea_ids and chebi_ids
         """
         sparql_rhea_url = "https://sparql.rhea-db.org/sparql"
         reaction_uris = " ".join([f"(rh:{rhea_id})" for rhea_id in rhea_ids])
-        chebi_query="""
+        chebi_query = (
+            """
             #endpoint: https://sparql.rhea-db.org/sparql
             #query: retrieve all chebi small molecules participating in the reactions
 
             PREFIX rh:<http://rdf.rhea-db.org/>
-    
+
             SELECT DISTINCT
             ?rhea_id
             ?chebi_id
-                
+
             WHERE {
             VALUES (?reaction) {
-                """ + reaction_uris + """
+                """
+            + reaction_uris
+            + """
             }
-            
+
             ?reaction rdfs:subClassOf rh:Reaction .
             ?reaction rh:status rh:Approved .
             ?reaction rh:accession ?rhea_accession .
@@ -276,5 +297,6 @@ class Reactants:
             BIND(SUBSTR(STR(?chebi_accession),7) AS ?chebi_id) .
             }
             """
+        )
         reaction_participants = sparql_to_df(chebi_query, sparql_rhea_url)
         return reaction_participants

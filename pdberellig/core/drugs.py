@@ -70,13 +70,10 @@ class Drugs:
             )
 
         ligand_drug_targets_file = os.path.join(
-            self.args.out_dir, f"{ligand.id}_drug_targets.tsv"
+            self.args.out_dir, f"{ligand.id}_drug_annotation.tsv"
         )
 
-        self.log.info(
-            "Writing the PDB chains corresponding to the pharmacologically active targets of "
-            f"{ligand.id} to {ligand_drug_targets_file}"
-        )
+        self.log.info(f"Writing drug annotations to {ligand_drug_targets_file}")
         ligand_drug_targets.to_csv(ligand_drug_targets_file, sep="\t", index=False)
 
     def get_drugbank_targets(self, component: Component) -> pd.DataFrame:
