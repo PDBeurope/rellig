@@ -1,6 +1,6 @@
 # This workflow will install dev dependencies, and generate documentation.
 
-name: pdberellig documentation
+name: documentation
 
 on:
   push:
