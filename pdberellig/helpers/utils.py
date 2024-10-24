@@ -19,6 +19,7 @@
 Various utilities used in the pipeline
 """
 
+import importlib.metadata
 import logging
 import os
 import sys
@@ -35,7 +36,6 @@ from requests.adapters import HTTPAdapter
 from SPARQLWrapper import JSON, SPARQLWrapper
 from urllib3 import Retry
 
-import pdberellig
 from pdberellig.conf import get_config
 from pdberellig.core.models import CompareObj
 
@@ -57,7 +57,9 @@ def setup_log(stage, mode):
     stream.setFormatter(logging.Formatter(frm))
     log.addHandler(stream)
 
-    log.info(f"PDBe RelLig {stage} started | {mode}    v.{pdberellig.__version__}")
+    log.info(
+        f"PDBe RelLig {stage} started | {mode}    v.{importlib.metadata.version('pdberellig')}"
+    )
     log.info("Used packages:")
     log.info(f"  rdkit {rdkit.__version__}")
     log.info(f"  pdbeccdutils {pdbeccdutils.__version__}")
