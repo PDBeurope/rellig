@@ -20,7 +20,7 @@ repos:
     rev: v0.6.9 # Ruff version.
     hooks:
       - id: ruff
-        args: [--fix]
+        args: ["check", "--select", "I", "--fix"]
       - id: ruff-format
   - repo: https://github.com/dzhu/rstfmt
     rev: v0.0.14
