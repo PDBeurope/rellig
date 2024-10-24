@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cofactors &mdash; pdberellig 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/styles.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=a58bc63e"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reactants" href="reactants.html" />
+    <link rel="prev" title="PDBe RelLig: Relevant Ligands in PDB" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            pdberellig
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cofactors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#annotation-process">Annotation process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reactants.html">Reactants</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reactants.html#annotation-process">Annotation process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reactants.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="drugs.html">Drugs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="drugs.html#annotation-process">Annotation process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drugs.html#example">Example</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pdberellig.core.html">core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pdberellig.core.html#pdberellig-core-cofactors">pdberellig.core.cofactors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pdberellig.core.html#pdberellig-core-reactants">pdberellig.core.reactants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pdberellig.core.html#pdberellig-core-drugs">pdberellig.core.drugs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pdberellig.helpers.html">helpers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pdberellig.helpers.html#pdberellig-helpers-utils">pdberellig.helpers.utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pdberellig.helpers.html#module-pdberellig.helpers.file_utils">pdberellig.helpers.file_utils</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pdberellig.helpers.html#pdberellig.helpers.file_utils.get_chebi_iterator"><code class="docutils literal notranslate"><span class="pre">get_chebi_iterator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pdberellig.helpers.html#pdberellig.helpers.file_utils.get_cif_path"><code class="docutils literal notranslate"><span class="pre">get_cif_path()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pdberellig</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Cofactors</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/documentation/cofactors.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cofactors">
+<h1>Cofactors<a class="headerlink" href="#cofactors" title="Link to this heading"></a></h1>
+<p>The PDBe RelLig pipeline automatically identifies cofactor-like ligands in the PDB by comparing their 2D structural similarity to cofactor classes found in the <a class="reference external" href="https://www.ebi.ac.uk/thornton-srv/databases/CoFactor/">CoFactor database</a>. The CoFactor database contains 27 manually curated classes of organic enzyme cofactors and information about the associated enzymes, including their EC numbers. For each cofactor class, a representative small molecule was selected from the PDB based on its close structural match to the template molecule using <a class="reference external" href="https://doi.org/10.1016/j.str.2018.02.009">PARITY similarity</a>. A minimum similarity threshold was also defined, and the list of enzyme EC numbers was expanded using data from BRENDA.</p>
+<section id="annotation-process">
+<h2>Annotation process<a class="headerlink" href="#annotation-process" title="Link to this heading"></a></h2>
+<p>The pipeline analyzes input PDB ligands by calculating their similarity to template molecules in each cofactor class. If the similarity meets the minimum threshold for any cofactor class, the ligand is further compared to the representative molecule of that class. If the similarity remains above the threshold and the ligand interacts with a protein that has an EC number matching the cofactor class, the ligand is classified as <a class="reference external" href="https://doi.org/10.1093/bioinformatics/btz115">cofactor-like</a>.</p>
+</section>
+<section id="data">
+<h2>Data<a class="headerlink" href="#data" title="Link to this heading"></a></h2>
+<p>Details of templates, representatives, thresholds and ec numbers used for the cofactor classes can be found in the folder <code class="docutils literal notranslate"><span class="pre">pdberellig/data/cofactors</span></code>.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Class id</th>
+<th>Template</th>
+<th style="text-align: center;">Representative</th>
+<th style="text-align: right;">Threshold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>TDPTHW</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/TDP">TPP</a></td>
+<td style="text-align: right;">0.6</td>
+</tr>
+<tr>
+<td>2</td>
+<td>FAD</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/FAD">FAD</a></td>
+<td style="text-align: right;">0.87</td>
+</tr>
+<tr>
+<td>3</td>
+<td>FMN</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/FMN">FMN</a></td>
+<td style="text-align: right;">0.86</td>
+</tr>
+<tr>
+<td>4</td>
+<td>NAD2</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/NAD">NAD</a></td>
+<td style="text-align: right;">0.68</td>
+</tr>
+<tr>
+<td>5</td>
+<td>PNS</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/PNS">PNS</a></td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>COAM</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/COA">COA</a></td>
+<td style="text-align: right;">0.67</td>
+</tr>
+<tr>
+<td>7</td>
+<td>PLP</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/PLP">PLP</a></td>
+<td style="text-align: right;">0.78</td>
+</tr>
+<tr>
+<td>8</td>
+<td>0HG</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/GSH">GSH</a></td>
+<td style="text-align: right;">0.42</td>
+</tr>
+<tr>
+<td>9</td>
+<td>BTN</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/BTN">BTN</a></td>
+<td style="text-align: right;">0.58</td>
+</tr>
+<tr>
+<td>10</td>
+<td>FFO</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/FFO">FFO</a></td>
+<td style="text-align: right;">0.94</td>
+</tr>
+<tr>
+<td>11</td>
+<td>B12</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/B12">B12</a></td>
+<td style="text-align: right;">0.84</td>
+</tr>
+<tr>
+<td>12</td>
+<td>ASC</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/ASC">ASC</a></td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr>
+<td>13</td>
+<td>MQ7</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/MQ7">MQ7</a></td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr>
+<td>14</td>
+<td>UQ2</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/UQ1">UQ1</a></td>
+<td style="text-align: right;">0.53</td>
+</tr>
+<tr>
+<td>15</td>
+<td>MSS</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/MGD">MGD</a></td>
+<td style="text-align: right;">0.43</td>
+</tr>
+<tr>
+<td>16</td>
+<td>H4B</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/H4B">H4B</a></td>
+<td style="text-align: right;">0.78</td>
+</tr>
+<tr>
+<td>17</td>
+<td>MDO</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/MDO">MDO</a></td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr>
+<td>18</td>
+<td>SAM3</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/SAM">SAM</a></td>
+<td style="text-align: right;">0.6</td>
+</tr>
+<tr>
+<td>19</td>
+<td>F43</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/F43">F43</a></td>
+<td style="text-align: right;">0.94</td>
+</tr>
+<tr>
+<td>20</td>
+<td>COM</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/COM">COM</a></td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr>
+<td>21</td>
+<td>TP7</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/TP7">TP7</a></td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr>
+<td>22</td>
+<td>HEA</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/HEA">HEA</a></td>
+<td style="text-align: right;">0.52</td>
+</tr>
+<tr>
+<td>24</td>
+<td>DPM</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/DPM">DPM</a></td>
+<td style="text-align: right;">0.97</td>
+</tr>
+<tr>
+<td>25</td>
+<td>PQQ</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/PQQ">PQQ</a></td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr>
+<td>26</td>
+<td>1TY</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/TPQ">TPQ</a></td>
+<td style="text-align: right;">0.55</td>
+</tr>
+<tr>
+<td>27</td>
+<td>TRQ</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/TRQ">TRQ</a></td>
+<td style="text-align: right;">0.88</td>
+</tr>
+<tr>
+<td>28</td>
+<td>LPA</td>
+<td style="text-align: center;"><a href="https://pdbe.org/chem/LPA">LPA</a></td>
+<td style="text-align: right;">1.0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<p>PDBe RelLig pipeline identifies the PDB Ligand 8FL as a cofactor-like molecule similar to TPP (Thiamine Diphosphate) and writes the outputs with ligand interacting proteins from the PDB with corresponding EC numbers.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;8FL&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;template&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TDPTHW&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;similarity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.722</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;representative&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TPP&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;similarity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.963</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;pdb_chains&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;pdb_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5xvt&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;auth_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;struct_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;uniprot_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P34736&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ec_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.2.1.1&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;pdb_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5xuf&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;auth_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;struct_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;uniprot_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P34736&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ec_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.2.1.1&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;pdb_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8vzb&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;auth_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;D&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;struct_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;D&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;uniprot_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A0A3C0TX30&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ec_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4.1.1.8&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;pdb_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8vzb&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;auth_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;struct_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;uniprot_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A0A3C0TX30&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ec_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4.1.1.8&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;pdb_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8vza&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;auth_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;struct_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;uniprot_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A0A3C0TX30&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ec_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4.1.1.8&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;pdb_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8vza&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;auth_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;B&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;struct_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;B&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;uniprot_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A0A3C0TX30&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ec_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4.1.1.8&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;pdb_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8vzb&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;auth_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;B&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;struct_asym_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;B&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;uniprot_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A0A3C0TX30&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ec_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4.1.1.8&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="PDBe RelLig: Relevant Ligands in PDB" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reactants.html" class="btn btn-neutral float-right" title="Reactants" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Protein Data Bank in Europe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
