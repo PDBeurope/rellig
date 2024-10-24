@@ -67,13 +67,31 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">API documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pdberellig.core.html">core</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pdberellig.core.html#pdberellig-core-cofactors">pdberellig.core.cofactors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pdberellig.core.html#pdberellig-core-reactants">pdberellig.core.reactants</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pdberellig.core.html#pdberellig-core-drugs">pdberellig.core.drugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pdberellig.core.html#module-pdberellig.core.cofactors">pdberellig.core.cofactors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pdberellig.core.html#pdberellig.core.cofactors.Cofactors"><code class="docutils literal notranslate"><span class="pre">Cofactors</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pdberellig.core.html#module-pdberellig.core.reactants">pdberellig.core.reactants</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pdberellig.core.html#pdberellig.core.reactants.Reactants"><code class="docutils literal notranslate"><span class="pre">Reactants</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pdberellig.core.html#module-pdberellig.core.drugs">pdberellig.core.drugs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pdberellig.core.html#pdberellig.core.drugs.Drugs"><code class="docutils literal notranslate"><span class="pre">Drugs</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">helpers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pdberellig-helpers-utils">pdberellig.helpers.utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pdberellig.helpers.utils">pdberellig.helpers.utils</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.download_chebi"><code class="docutils literal notranslate"><span class="pre">download_chebi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.get_ids_to_process_from_file"><code class="docutils literal notranslate"><span class="pre">get_ids_to_process_from_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.get_ligand_intx_chains"><code class="docutils literal notranslate"><span class="pre">get_ligand_intx_chains()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.init_rdkit_templates"><code class="docutils literal notranslate"><span class="pre">init_rdkit_templates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.parse_ligand"><code class="docutils literal notranslate"><span class="pre">parse_ligand()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.setup_log"><code class="docutils literal notranslate"><span class="pre">setup_log()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.sparql_to_df"><code class="docutils literal notranslate"><span class="pre">sparql_to_df()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#module-pdberellig.helpers.file_utils">pdberellig.helpers.file_utils</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.file_utils.get_chebi_iterator"><code class="docutils literal notranslate"><span class="pre">get_chebi_iterator()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.file_utils.get_cif_path"><code class="docutils literal notranslate"><span class="pre">get_cif_path()</span></code></a></li>
@@ -112,8 +130,117 @@
              
   <section id="helpers">
 <h1>helpers<a class="headerlink" href="#helpers" title="Link to this heading"></a></h1>
-<section id="pdberellig-helpers-utils">
-<h2>pdberellig.helpers.utils<a class="headerlink" href="#pdberellig-helpers-utils" title="Link to this heading"></a></h2>
+<section id="module-pdberellig.helpers.utils">
+<span id="pdberellig-helpers-utils"></span><h2>pdberellig.helpers.utils<a class="headerlink" href="#module-pdberellig.helpers.utils" title="Link to this heading"></a></h2>
+<p>Various utilities used in the pipeline</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pdberellig.helpers.utils.download_chebi">
+<span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">download_chebi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.download_chebi" title="Link to this definition"></a></dt>
+<dd><p>Downloads the structures.csv.gz file from
+ChEBI FTP and saves to the destination folder</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>out_folder</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – path to the output folder</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pdberellig.helpers.utils.get_ids_to_process_from_file">
+<span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">get_ids_to_process_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.get_ids_to_process_from_file" title="Link to this definition"></a></dt>
+<dd><p>Read in all the items to process from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Path to the file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of items to be processed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pdberellig.helpers.utils.get_ligand_intx_chains">
+<span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">get_ligand_intx_chains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ligand_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.get_ligand_intx_chains" title="Link to this definition"></a></dt>
+<dd><p>Returns the details of ligand interacting
+PDB chains including chain numbers,uniprot ids
+and ec number by calling PDBe API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ligand_id</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – ligand identifier from PDB</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pdberellig.helpers.utils.init_rdkit_templates">
+<span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">init_rdkit_templates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.init_rdkit_templates" title="Link to this definition"></a></dt>
+<dd><p>Returns list of templates for cofactor classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Path to the directory with templates</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">CompareObj</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pdberellig.helpers.utils.parse_ligand">
+<span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">parse_ligand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cif_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ligand_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.parse_ligand" title="Link to this definition"></a></dt>
+<dd><p>Parse cif file of ligand and returns Component object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cif_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – path to ligand cif file</p></li>
+<li><p><strong>ligand_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – type of ligand (CCD, PRD, CLC)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pdberellig.helpers.utils.setup_log">
+<span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">setup_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.setup_log" title="Link to this definition"></a></dt>
+<dd><p>Set up application log.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Stage of the logger in the pipeline hierarchy.</p></li>
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Mode of the application.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pdberellig.helpers.utils.sparql_to_df">
+<span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">sparql_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparql_url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.sparql_to_df" title="Link to this definition"></a></dt>
+<dd><p>Returns the result of input sparql query as
+a data frame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sparql_url</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – input sparql query</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-pdberellig.helpers.file_utils">
 <span id="pdberellig-helpers-file-utils"></span><h2>pdberellig.helpers.file_utils<a class="headerlink" href="#module-pdberellig.helpers.file_utils" title="Link to this heading"></a></h2>
