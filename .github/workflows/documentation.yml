@@ -27,10 +27,8 @@ jobs:
         with:
           path: ./.venv
           key: venv-${{ hashFiles('poetry.lock') }}
-      - name: Install the package without dependencies
-        run: poetry install --only-root
-      - name: Install documentation dependencies only
-        run: poetry install --only doc
+      - name: Install the package with doc dependencies
+        run: poetry install --with doc
       - run: |
           cd doc
           poetry run sphinx-build -b html . _build/html
