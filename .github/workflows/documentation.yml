@@ -27,10 +27,8 @@ jobs:
         with:
           path: ./.venv
           key: venv-${{ hashFiles('poetry.lock') }}
-      - name: Install the package without dependencies
-        run: poetry install --no-deps
-      - name: Install documentation dependencies
-        run: poetry install --only docs
+      - name: Install the package without doc dependencies only
+        run: poetry install --with doc
       - run: |
           cd doc
           make html
