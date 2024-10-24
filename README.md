@@ -1,4 +1,4 @@
-![License](https://img.shields.io/github/license/pdbeurope/rellig)
+![License](https://img.shields.io/github/license/pdbeurope/rellig) ![Documentation](https://github.com/PDBeurope/rellig/workflows/documentation/badge.svg)
 
 # PDBe RelLig
 
