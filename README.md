@@ -15,9 +15,15 @@ PDBe RelLig is designed to bridge this gap by automatically annotating the ligan
 Create and activate a virtual environment and then install PDBe RelLig
 
 ```bash
-$ pip install pdberellig
+pip install pdberellig
 ```
 
+### Dependencies
+* [Python](https://www.python.org/downloads/) ^3.10
+* [click](https://click.palletsprojects.com/en/stable/) 8.1.7
+* [pdbeccdutils](https://pypi.org/project/pdbeccdutils/) ^0.8.6
+* [sparqlwrapper](https://pypi.org/project/SPARQLWrapper/) ^2.0.0
+* [pandas](https://pypi.org/project/pandas/) ^2.2.3
 ### Running the pipeline
 
 There are three modes of pipelines:
@@ -25,7 +31,7 @@ There are three modes of pipelines:
 ### cofactors
 
 ```bash
-$ pdberellig cofactors --cif <path_to_ligand_cif_file> --ligand_type <type_of_ligand> --out-dir <path_to_output>
+pdberellig cofactors --cif <path_to_ligand_cif_file> --ligand_type <type_of_ligand> --out-dir <path_to_output>
 ```
 **pipeline inputs**
 
@@ -77,7 +83,7 @@ Example
 ### reactants
 
 ```bash
-$ pdberellig reactants --cif <path_to_ligand_cif_file> --ligand_type <type_of_ligand> --chebi-structure-file <csv_file_with_chebi_mol> --out-dir <path_to_output>
+pdberellig reactants --cif <path_to_ligand_cif_file> --ligand_type <type_of_ligand> --chebi-structure-file <csv_file_with_chebi_mol> --out-dir <path_to_output>
 ```
 **pipeline inputs**
 ```bash
@@ -114,7 +120,7 @@ Example
 ### drugs
 
 ```bash
-$ pdberellig drugs --cif <path_to_ligand_cif_file> --ligand_type <type_of_ligand> --out-dir <path_to_output>
+pdberellig drugs --cif <path_to_ligand_cif_file> --ligand_type <type_of_ligand> --out-dir <path_to_output>
 ```
 **pipeline inputs**
 
