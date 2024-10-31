@@ -24,6 +24,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from functools import lru_cache
 from multiprocessing import cpu_count
+from typing import List, Union
 
 import pandas as pd
 from pdbeccdutils.core import ccd_reader
@@ -134,7 +135,7 @@ class Cofactors:
         with open(cofactor_results_path, "w") as fh:
             json.dump(cofactor_results, fh, indent=4)
 
-    def get_similarity(self, ligand: CompareObj) -> list[CofactorSim]:
+    def get_similarity(self, ligand: CompareObj) -> Union[CofactorSim, List]:
         """Returns the similarity of query molecule to template and
         representative molecules of cofactor class if it is above defined threshold
 
@@ -181,6 +182,11 @@ class Cofactors:
                     representative_sim = self.get_representative_similarity(
                         ligand, representative
                     )
+                    if (
+                        representative_sim.result.similarity_score
+                        < template_details["threshold"]
+                    ):
+                        continue
 
                     if not cofactor_sim:
                         cofactor_sim = CofactorSim(
