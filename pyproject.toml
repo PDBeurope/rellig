@@ -10,9 +10,8 @@ keywords = ["PDB", "ligand", "cofactor", "reactant", "drug", "annotation"]
 
 classifiers = [
     "Environment :: Console",
-    "Topic :: Scientific :: Bio-Informatics :: Cheminformatics",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -20,17 +19,11 @@ classifiers = [
 
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 click = "8.1.7"
-numpy = "^1.24.1"
-scipy = "^1.10.0"
-pdbeccdutils = "^0.8.5"
-requests = "^2.32.3"
-rdkit = "^2023.9.2"
+pdbeccdutils = "^0.8.6"
 sparqlwrapper = "^2.0.0"
 pandas = "^2.2.3"
-gemmi = "^0.6.6"
-networkx = "^3.0.0"
 
 
 
