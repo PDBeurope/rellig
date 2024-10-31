@@ -35,7 +35,7 @@ jobs:
         path: ./.venv
         key: venv-${{ hashFiles('poetry.lock') }}
     - name: Install the package with doc dependencies
-      run: poetry install --without dev, doc
+      run: poetry install --without dev,doc
     - name: Build package
       run: poetry build
     - name: Publish package
