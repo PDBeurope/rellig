@@ -141,3 +141,52 @@ Example
 | 6npu | A | A | P00519 | Tyrosine-protein kinase ABL1 | Humans |
 | 6npv | B | B | P00519 | Tyrosine-protein kinase ABL1 | Humans |
 | 6npe | B | B | P00519 | Tyrosine-protein kinase ABL1 | Humans |
+
+
+## Contribution
+We encourage you to contribute to this project. The package uses [poetry](https://python-poetry.org/) for packaging and dependency management. You can develop locally using:
+
+```bash
+git clone https://github.com/PDBeurope/rellig.git
+cd rellig
+pip install poetry
+poetry install --with dev,doc
+pre-commit install
+```
+
+The pre-commit hook will run linting, formatting and update `poetry.lock`. The `poetry.lock` file will lock all dependencies and ensure that they match pyproject.toml versions.
+
+To add a new dependency
+
+```bash
+# Latest resolvable version
+poetry add <package>
+
+# Optionally fix a version
+poetry add <package>@<version>
+```
+
+To change a version of a dependency, either edit pyproject.toml and run:
+
+```bash
+poetry sync --with dev
+```
+
+or
+
+```bash
+poetry add <package>@<version>
+```
+
+
+## Documentation
+
+The documentation is generated using `sphinx` in `sphinx_rtd_theme` and hosted on GitHub Pages. To generate the documentation locally,
+
+```bash
+cd doc
+poetry run sphinx-build -b html . _build/html
+
+# See the documentation at http://localhost:8080.
+python -m http.server 8080 -d _build/html
+```
