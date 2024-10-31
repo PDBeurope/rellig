@@ -62,7 +62,7 @@ def setup_log(stage, mode):
     )
     log.info("Used packages:")
     log.info(f"  rdkit {rdkit.__version__}")
-    log.info(f"  pdbeccdutils {pdbeccdutils.__version__}")
+    log.info(f"  pdbeccdutils {importlib.metadata.version('pdbeccdutils')}")
 
     return log
 
