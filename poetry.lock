@@ -786,23 +786,23 @@ xml = ["lxml (>=4.9.2)"]
 
 [[package]]
 name = "pdbeccdutils"
-version = "0.8.6"
+version = "1.0.0"
 description = "Toolkit to parse and process small molecules in wwPDB"
 optional = false
-python-versions = "<4.0,>=3.10"
+python-versions = "<4,>=3.10"
 files = [
-    {file = "pdbeccdutils-0.8.6-py3-none-any.whl", hash = "sha256:916006926c907aeed7d04a8faac2cb5014dc89b6f2731c0334999ae4b33a36f2"},
-    {file = "pdbeccdutils-0.8.6.tar.gz", hash = "sha256:58b97d6b3aa517177ee6e7bb4bd442fd3ed5c978944dd5abf5259450ed1c94eb"},
+    {file = "pdbeccdutils-1.0.0-py3-none-any.whl", hash = "sha256:dcc6bcb363f9cb0f9be15c465abf2a56809926d8275ccdc50d4f8438ab776c7b"},
+    {file = "pdbeccdutils-1.0.0.tar.gz", hash = "sha256:d32ba6772a4224e5e2727afc25fc8d08590a64b853ffe8351412fff465ab8fd9"},
 ]
 
 [package.dependencies]
-gemmi = ">=0.6.6,<0.7.0"
-networkx = ">=3.3,<4.0"
-numpy = ">=1.26.4,<1.27.0"
-pillow = ">=10.4.0,<11.0.0"
-rdkit = "2023.9.6"
-requests = ">=2.32.3,<3.0.0"
-scipy = ">=1.14.1,<2.0.0"
+gemmi = ">=0.6.6"
+networkx = ">=3.3"
+numpy = ">=1.26.4"
+pillow = ">=10.4.0"
+rdkit = ">=2023.9.6"
+requests = ">=2.32.3"
+scipy = ">=1.14.1"
 
 [[package]]
 name = "pillow"
@@ -1534,5 +1534,5 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.10"
-content-hash = "9065b89cf46987100ed21a5cb351edf1b6c5c6a30a0f0edadaf1980d878935a0"
+python-versions = ">=3.10,<4"
+content-hash = "c38ff05e73d46cce75dcf77fa044fc4ee49ce3323514193c771279140719c23b"
