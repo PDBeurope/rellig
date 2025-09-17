@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pdberellig"
-version = "1.0.1"
+version = "1.0.2"
 description = "A toolkit for functional annotation of ligands in the PDB"
 authors = ["Ibrahim Roshan Kunnakkattu <roshan@ebi.ac.uk>"]
 readme = "README.md"
