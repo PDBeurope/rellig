@@ -19,11 +19,11 @@ classifiers = [
 
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.10,<4"
 click = "8.1.7"
-pdbeccdutils = "^0.8.6"
+pdbeccdutils = ">=1.0.0"
 sparqlwrapper = "^2.0.0"
-pandas = "^2.2.3"
+pandas = ">=2.2.3"
 
 
 
