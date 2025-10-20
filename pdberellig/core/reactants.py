@@ -162,25 +162,27 @@ class Reactants:
 
         self.chebi = pd.read_csv(chebi_structure_file, dtype=str)
         self.chebi = self.chebi.loc[
-            (self.chebi["COMPOUND_ID"].isin(chebi_ids))
-            & (self.chebi["TYPE"] == "mol")
-            & (self.chebi["DEFAULT_STRUCTURE"] == "Y"),
-            ["COMPOUND_ID", "STRUCTURE"],
+            (self.chebi["compound_id"].isin(chebi_ids))
+            & (self.chebi["status_id"] == 1)  # include only ChEBI curated entires
+            & (
+                self.chebi["default_structure"] == "TRUE"
+            ),  # include only with structure
+            ["compound_id", "molfile"],
         ]
         for _, row in self.chebi.iterrows():
             try:
-                chebi_mol = Chem.MolFromMolBlock(row["STRUCTURE"])
+                chebi_mol = Chem.MolFromMolBlock(row["molfile"])
                 chebi_mol_no_h = Chem.RemoveHs(chebi_mol)
                 if len(chebi_mol_no_h.GetAtoms()) < self.args.minimal_ligand_size:
                     # chebi is too small.
-                    self.log.debug(f"""Number of atoms in {row["COMPOUND_ID"]} is less
+                    self.log.debug(f"""Number of atoms in {row["compound_id"]} is less
                                     than {self.args.minimal_ligand_size},
                                     hence skipping""")
                 else:
-                    templates.append(CompareObj(row["COMPOUND_ID"], chebi_mol_no_h))
+                    templates.append(CompareObj(row["compound_id"], chebi_mol_no_h))
 
             except Exception:
-                self.log.warn(f"Couldn't parse {row['COMPOUND_ID']} using RDKit")
+                self.log.warn(f"Couldn't parse {row['compound_id']} using RDKit")
 
         return templates
 
