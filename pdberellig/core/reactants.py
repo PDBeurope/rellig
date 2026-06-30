@@ -155,12 +155,12 @@ class Reactants:
         """
 
         templates = []
-        if not self.args.update_chebi:
+        if self.args.chebi_structure_file and not self.args.update_chebi:
             chebi_structure_file = self.args.chebi_structure_file
         else:
             chebi_structure_file = download_chebi(self.args.out_dir)
 
-        self.chebi = pd.read_csv(chebi_structure_file, dtype=str)
+        self.chebi = pd.read_csv(chebi_structure_file, dtype=str, sep="\t")
         self.chebi = self.chebi.loc[
             (self.chebi["compound_id"].isin(chebi_ids))
             & (self.chebi["status_id"] == 1)  # include only ChEBI curated entires
