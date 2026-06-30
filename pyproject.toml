@@ -21,7 +21,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.10,<4"
 click = "8.1.7"
-pdbeccdutils = ">=1.0.0"
+pdbeccdutils = ">=1.0.4"
 sparqlwrapper = "^2.0.0"
 pandas = ">=2.2.3"
 
