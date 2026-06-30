@@ -155,7 +155,7 @@ class Reactants:
         """
 
         templates = []
-        if not self.args.update_chebi:
+        if self.args.chebi_structure_file and not self.args.update_chebi:
             chebi_structure_file = self.args.chebi_structure_file
         else:
             chebi_structure_file = download_chebi(self.args.out_dir)

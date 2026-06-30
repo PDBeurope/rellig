@@ -62,8 +62,9 @@ def cofactors(cif: str, ligand_type: str, out_dir: str):
 @click.option(
     "--chebi-structure-file",
     type=str,
-    required=True,
-    help="Path to the ChEBI SDF file",
+    required=False,
+    default=None,
+    help="Path to the ChEBI structures file. If omitted, the file is downloaded.",
 )
 @click.option("--out-dir", type=str, required=True, help="path to output directory")
 @click.option(
@@ -82,7 +83,7 @@ def cofactors(cif: str, ligand_type: str, out_dir: str):
 def reactants(
     cif: str,
     ligand_type: str,
-    chebi_structure_file: str,
+    chebi_structure_file: str | None,
     out_dir: str,
     update_chebi: str,
     minimal_ligand_size: int,
@@ -91,9 +92,9 @@ def reactants(
 
     log = setup_log("functional annotation pipeline", "reactants")
 
-    if not os.path.isfile(chebi_structure_file):
+    if chebi_structure_file and not os.path.isfile(chebi_structure_file):
         raise FileNotFoundError(
-            f"Path to the ChEBI stuture file ({chebi_structure_file}) does not exist."
+            f"Path to the ChEBI structure file ({chebi_structure_file}) does not exist."
         )
 
     if not os.path.isdir(out_dir):
