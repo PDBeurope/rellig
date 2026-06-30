@@ -83,14 +83,14 @@ Example
 ### reactants
 
 ```bash
-pdberellig reactants --cif <path_to_ligand_cif_file> --ligand_type <type_of_ligand> --chebi-structure-file <csv_file_with_chebi_mol> --out-dir <path_to_output>
+pdberellig reactants --cif <path_to_ligand_cif_file> --ligand-type <type_of_ligand> --out-dir <path_to_output> [--chebi-structure-file <tsv_file_with_chebi_mol>]
 ```
 **pipeline inputs**
 ```bash
 Options:
   --cif TEXT                     path to input cif file  [required]
   --ligand-type [CCD|PRD|CLC]    type of ligand in the PDB  [required]
-  --chebi-structure-file TEXT    Path to the ChEBI SDF file  [required]
+  --chebi-structure-file TEXT    Path to the ChEBI structures file. If omitted, the file is downloaded.
   --out-dir TEXT                 path to output directory  [required]
   --update-chebi                 Path to the ChEBI archive files
   --minimal-ligand-size INTEGER  Minimum ligand size.  [default: 5]
