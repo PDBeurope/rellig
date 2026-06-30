@@ -163,9 +163,9 @@ class Reactants:
         self.chebi = pd.read_csv(chebi_structure_file, dtype=str, sep="\t")
         self.chebi = self.chebi.loc[
             (self.chebi["compound_id"].isin(chebi_ids))
-            & (self.chebi["status_id"] == 1)  # include only ChEBI curated entires
+            & (self.chebi["status_id"] == "1")  # include only ChEBI curated entires
             & (
-                self.chebi["default_structure"] == "TRUE"
+                self.chebi["default_structure"] == "true"
             ),  # include only with structure
             ["compound_id", "molfile"],
         ]
