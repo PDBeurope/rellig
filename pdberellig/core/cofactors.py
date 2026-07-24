@@ -22,7 +22,6 @@ Cofactors pipeline data model
 import json
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from functools import lru_cache
 from multiprocessing import cpu_count
 from typing import List, Union
 
