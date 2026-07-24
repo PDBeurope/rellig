@@ -20,6 +20,7 @@ Various utilities used in the pipeline
 """
 
 import importlib.metadata
+import json
 import logging
 import os
 import sys
