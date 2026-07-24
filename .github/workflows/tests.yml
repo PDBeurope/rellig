@@ -1,0 +1,30 @@
+# This workflow will install Python dependencies, run pytests
+
+name: pdberellig tests
+
+on: push
+
+jobs:
+  pytest:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install poetry
+        uses: abatilo/actions-poetry@v2
+      - name: Define a cache for the virtual environment based on the dependencies lock file
+        uses: actions/cache@v3
+        with:
+          path: ./.venv
+          key: venv-${{ hashFiles('poetry.lock') }}
+      - run: |
+          poetry install --with dev
+          poetry run pytest --cov=pdberellig
