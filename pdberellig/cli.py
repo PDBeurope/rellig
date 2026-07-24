@@ -1,4 +1,3 @@
-import argparse
 import os
 
 import click
@@ -38,8 +37,7 @@ def cofactors(cif: str, ligand_type: str, out_dir: str):
 
     log = setup_log("functional annotation pipeline", "cofactors")
 
-    args = argparse.Namespace(cif=cif, ligand_type=ligand_type, out_dir=out_dir)
-    cofactors = Cofactors(log, args)
+    cofactors = Cofactors(cif, ligand_type, out_dir, log)
     cofactors.process_entry()
 
 
@@ -102,15 +100,15 @@ def reactants(
             f"Path to the output directory ({out_dir}) does not exist."
         )
 
-    args = argparse.Namespace(
-        cif=cif,
-        ligand_type=ligand_type,
-        chebi_structure_file=chebi_structure_file,
-        update_chebi=update_chebi,
-        out_dir=out_dir,
+    reactants = Reactants(
+        cif,
+        ligand_type,
+        chebi_structure_file,
+        out_dir,
+        log,
         minimal_ligand_size=minimal_ligand_size,
+        update_chebi=update_chebi,
     )
-    reactants = Reactants(log, args)
     reactants.process_entry()
 
 
@@ -132,11 +130,5 @@ def reactants(
 def drugs(cif: str, ligand_type: str, out_dir: str):
     log = setup_log("functional annotation pipeline", "drugs")
 
-    args = argparse.Namespace(
-        cif=cif,
-        ligand_type=ligand_type,
-        out_dir=out_dir,
-    )
-
-    drugs = Drugs(log, args)
+    drugs = Drugs(cif, ligand_type, out_dir, log)
     drugs.process_entry()
