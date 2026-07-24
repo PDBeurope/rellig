@@ -41,14 +41,11 @@ from pdberellig.helpers.utils import (
 class Cofactors:
     """Cofactors pipeline data model."""
 
-    def __init__(self, log, args) -> None:
-        self.log = log
-        self.args = args
-        self.templates = init_rdkit_templates(
-            os.path.join(get_data_dir(), get_config("cofactor", "template_path"))
-        )
-        self.cofactor_details = self._get_cofactor_details()
-        self.cofactor_ec = self._get_cofactor_ec()
+    def __init__(self, ligand_cif, ligand_type, out_dir, logger) -> None:
+        self.ligand_cif = ligand_cif
+        self.ligand_type = ligand_type
+        self.out_dir = out_dir
+        self.logger = logger
 
     def process_entry(self) -> None:
         """Runs cofactor pipeline to check if a ligand
@@ -61,8 +58,13 @@ class Cofactors:
 
         """
         # parse ligand cif file
-        component = parse_ligand(self.args.cif, self.args.ligand_type)
+        component = parse_ligand(self.ligand_cif, self.ligand_type)
         ligand = CompareObj(component.id, component.mol_no_h)
+        templates = init_rdkit_templates(
+            os.path.join(get_data_dir(), get_config("cofactor", "template_path"))
+        )
+        cofactor_details = self._get_cofactor_details()
+        cofactor_details = self._get_cofactor_ec()
 
         # get similarity of the ligand to cofactor templates
         cofactor_sim = self.get_similarity(ligand)
@@ -70,7 +72,7 @@ class Cofactors:
             representative_score = round(
                 cofactor_sim.representative_sim.result.similarity_score, 3
             )
-            self.log.info(
+            self.logger.info(
                 f"Possible new cofactor identified: {cofactor_sim.representative_sim.query_id} similar to"
                 f" {cofactor_sim.representative_sim.target_id} representative with score {representative_score}."
             )
@@ -78,19 +80,19 @@ class Cofactors:
             # get ligand interacting PDB chains, uniprot ids and ec numbers
             ligand_intx_chains = get_ligand_intx_chains(cofactor_sim.query_id)
             if ligand_intx_chains.empty:
-                self.log.warn(f"No interacting PDB chain was found for {ligand.id}")
+                self.logger.warn(f"No interacting PDB chain was found for {ligand.id}")
                 return
             cofactor_template_id = cofactor_sim.template_sim.target_id
-            cofactor_id = self.cofactor_details[cofactor_template_id]["id"]
+            cofactor_id = cofactor_details[cofactor_template_id]["id"]
             ligand_cofactor_ec = pd.merge(
-                self.cofactor_ec.loc[(self.cofactor_ec["COFACTOR_ID"] == cofactor_id)],
+                cofactor_ec.loc[(cofactor_ec["COFACTOR_ID"] == cofactor_id)],
                 ligand_intx_chains,
                 left_on="EC_NO",
                 right_on="ec_number",
             ).drop(columns=["EC_NO"])
 
             if not ligand_cofactor_ec.empty:
-                self.log.info(f"""{cofactor_sim.query_id} is a cofactor-like
+                self.logger.info(f"""{cofactor_sim.query_id} is a cofactor-like
                             molecule similar to the cofactor template {cofactor_template_id}""")
                 cofactor_results = {
                     cofactor_sim.query_id: {
@@ -129,29 +131,48 @@ class Cofactors:
         """
         ligand_id = list(cofactor_results.keys())[0]
         cofactor_results_path = os.path.join(
-            self.args.out_dir, f"{ligand_id}_cofactor_annotation.json"
+            self.out_dir, f"{ligand_id}_cofactor_annotation.json"
         )
-        self.log.info(f"Writing cofactor annotations to {cofactor_results_path}")
+        self.logger.info(f"Writing cofactor annotations to {cofactor_results_path}")
         with open(cofactor_results_path, "w") as fh:
             json.dump(cofactor_results, fh, indent=4)
 
-    def get_similarity(self, ligand: CompareObj) -> Union[CofactorSim, List]:
+    def get_similarity(
+        self,
+        ligand: CompareObj,
+        templates: list[CompareObj] | None = None,
+        cofactor_details: dict | None = None,
+        cofactor_ec: pd.DataFrame | None = None,
+    ) -> Union[CofactorSim, List]:
         """Returns the similarity of query molecule to template and
         representative molecules of cofactor class if it is above defined threshold
 
         Args:
             ligand: CompareObj of ligand
+            templates: List of CompareObj of tempaltes of cofactors
+            cofactor_details: Dictionary of template and representative molecuels of cofactors
+            cofactor_ec: Dataframe of EC numbers associated with cofactors
         """
 
         cofactor_sim = None
+        if not templates:
+            templates = init_rdkit_templates(
+                os.path.join(get_data_dir(), get_config("cofactor", "template_path"))
+            )
+        if not cofactor_details:
+            cofactor_details = self._get_cofactor_details()
+
+        if not cofactor_ec:
+            cofactor_ec = self._get_cofactor_ec()
+
         with ThreadPoolExecutor(max_workers=cpu_count() - 1) as exec:
             future_to_result = {
                 exec.submit(
                     template.similarity_to,
                     ligand,
-                    self.cofactor_details[template.id]["threshold"] - 0.01,
+                    cofactor_details[template.id]["threshold"] - 0.01,
                 ): template.id
-                for template in self.templates
+                for template in templates
             }
 
             for future in as_completed(future_to_result):
@@ -164,7 +185,7 @@ class Cofactors:
                             f"to {template_sim.query_id}"
                         )
 
-                    template_details = self.cofactor_details[template_sim.target_id]
+                    template_details = cofactor_details[template_sim.target_id]
 
                     if (
                         template_sim.result.similarity_score
@@ -173,7 +194,7 @@ class Cofactors:
                         continue
                     template_score = round(template_sim.result.similarity_score, 3)
 
-                    self.log.info(
+                    self.logger.info(
                         f"Possible new cofactor identified: {template_sim.query_id} similar to"
                         f" {template_sim.target_id} template with score {template_score}."
                     )
@@ -207,7 +228,7 @@ class Cofactors:
                             )
 
                 except Exception as exc:
-                    self.log.warn("%r generated an exception: %s" % (template, exc))
+                    self.logger.warn("%r generated an exception: %s" % (template, exc))
 
         return cofactor_sim
 
@@ -242,7 +263,9 @@ class Cofactors:
             representative: representative molecule
         """
 
-        self.log.info(f"Running similarity to representative" f" {representative.id}")
+        self.logger.info(
+            f"Running similarity to representative" f" {representative.id}"
+        )
 
         representative_sim = representative.similarity_to(query)
         if not representative_sim.result:
@@ -253,6 +276,7 @@ class Cofactors:
 
         return representative_sim
 
+    @lru_cache
     def _get_cofactor_details(self) -> dict:
         """Returns the threshold and representative details of cofactor
         classes as dictionary"""
@@ -263,7 +287,7 @@ class Cofactors:
             obj = json.load(f)
             return {x["template"]: x for x in obj}
 
-    @lru_cache(maxsize=None)
+    @lru_cache
     def _get_cofactor_ec(self) -> pd.DataFrame:
         """Returns the EC numbers allowed for cofactor classes"""
         path = os.path.join(get_data_dir(), get_config("cofactor", "ec"))

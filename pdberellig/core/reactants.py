@@ -37,9 +37,23 @@ from pdberellig.helpers.utils import (
 class Reactants:
     """Reactants pipeline data model."""
 
-    def __init__(self, log, args):
-        self.log = log
-        self.args = args
+    def __init__(
+        self,
+        ligand_cif,
+        ligand_type,
+        chebi_structure_file,
+        out_dir,
+        logger,
+        minimal_ligand_size=5,
+        update_chebi=False,
+    ):
+        self.ligand_cif = ligand_cif
+        self.ligand_type = ligand_type
+        self.chebi_structure_file = chebi_structure_file
+        self.out_dir = out_dir
+        self.logger = logger
+        self.minimal_ligand_size = minimal_ligand_size
+        self.update_chebi = update_chebi
 
     def process_entry(self) -> None:
         """
@@ -51,12 +65,12 @@ class Reactants:
         * calculates similarity to reactant participants
         """
 
-        component = parse_ligand(self.args.cif, self.args.ligand_type)
+        component = parse_ligand(self.ligand_cif, self.ligand_type)
         ligand_id = component.id
-        if len(component.mol_no_h.GetAtoms()) < self.args.minimal_ligand_size:
+        if len(component.mol_no_h.GetAtoms()) < self.minimal_ligand_size:
             # ligand is too small.
-            self.log.debug(f"""Number of atoms in {ligand_id} is less than
-                           {self.args.minimal_ligand_size},
+            self.logger.debug(f"""Number of atoms in {ligand_id} is less than
+                           {self.minimal_ligand_size},
                            hence skipping""")
             return
 
@@ -65,7 +79,7 @@ class Reactants:
         # get ligand interacting PDB chains
         intx_chains = get_ligand_intx_chains(ligand.id)
         if intx_chains.empty:
-            self.log.warn(f"No interacting PDB chain was found for {ligand.id}")
+            self.logger.warn(f"No interacting PDB chain was found for {ligand.id}")
             return
 
         uniprot_ids = intx_chains.get("uniprot_id").to_list()
@@ -80,9 +94,9 @@ class Reactants:
                 how="inner",
             )
             reactants_sim_file = os.path.join(
-                self.args.out_dir, f"{ligand.id}_reactant_annotation.tsv"
+                self.out_dir, f"{ligand.id}_reactant_annotation.tsv"
             )
-            self.log.info(f"Writing reactant annotations to {reactants_sim_file}")
+            self.logger.info(f"Writing reactant annotations to {reactants_sim_file}")
             intx_chains_reac_sim.to_csv(reactants_sim_file, sep="\t", index=False)
 
     def get_reactant_annotation(
@@ -105,7 +119,7 @@ class Reactants:
         # get reactions corresponding to the list of uniprot_ids
         reactions = self.get_reactions(uniprot_ids)
         if reactions.empty:
-            self.log.warn(f"No reaction was fetched from Uniprot for {uniprot_ids}")
+            self.logger.warn(f"No reaction was fetched from Uniprot for {uniprot_ids}")
             return pd.DataFrame()
 
         rhea_ids = reactions.get("rhea_id").to_list()
@@ -113,7 +127,7 @@ class Reactants:
         # get ChEBI ids of all the reaction participants
         reaction_participants_df = self.get_reaction_participants(rhea_ids)
         if reaction_participants_df.empty:
-            self.log.warn(
+            self.logger.warn(
                 f"No reaction participants was fetched from Rhea for {rhea_ids}"
             )
             return pd.DataFrame()
@@ -127,7 +141,9 @@ class Reactants:
         chebi_similarities = self.get_similarities(ligand, templates)
         chebi_similarities_df = pd.DataFrame.from_dict(chebi_similarities)
         if chebi_similarities_df.empty:
-            self.log.info(f"No similar reaction participant was found for {ligand.id}")
+            self.logger.info(
+                f"No similar reaction participant was found for {ligand.id}"
+            )
             return pd.DataFrame()
 
         reaction_chebi = pd.merge(
@@ -155,10 +171,10 @@ class Reactants:
         """
 
         templates = []
-        if self.args.chebi_structure_file and not self.args.update_chebi:
-            chebi_structure_file = self.args.chebi_structure_file
+        if self.chebi_structure_file and not self.update_chebi:
+            chebi_structure_file = self.chebi_structure_file
         else:
-            chebi_structure_file = download_chebi(self.args.out_dir)
+            chebi_structure_file = download_chebi(self.out_dir)
 
         self.chebi = pd.read_csv(chebi_structure_file, dtype=str, sep="\t")
         self.chebi = self.chebi.loc[
@@ -173,16 +189,16 @@ class Reactants:
             try:
                 chebi_mol = Chem.MolFromMolBlock(row["molfile"])
                 chebi_mol_no_h = Chem.RemoveHs(chebi_mol)
-                if len(chebi_mol_no_h.GetAtoms()) < self.args.minimal_ligand_size:
+                if len(chebi_mol_no_h.GetAtoms()) < self.minimal_ligand_size:
                     # chebi is too small.
-                    self.log.debug(f"""Number of atoms in {row["compound_id"]} is less
-                                    than {self.args.minimal_ligand_size},
+                    self.logger.debug(f"""Number of atoms in {row["compound_id"]} is less
+                                    than {self.minimal_ligand_size},
                                     hence skipping""")
                 else:
                     templates.append(CompareObj(row["compound_id"], chebi_mol_no_h))
 
             except Exception:
-                self.log.warn(f"Couldn't parse {row['compound_id']} using RDKit")
+                self.logger.warn(f"Couldn't parse {row['compound_id']} using RDKit")
 
         return templates
 
@@ -221,7 +237,7 @@ class Reactants:
                         )
 
                 except Exception as exc:
-                    self.log.warn("%r generated an exception: %s" % (template, exc))
+                    self.logger.warn("%r generated an exception: %s" % (template, exc))
 
         return chebi_similarities
 

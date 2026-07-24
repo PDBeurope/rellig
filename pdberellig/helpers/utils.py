@@ -67,6 +67,7 @@ def setup_log(stage, mode):
     return log
 
 
+@lru_cache
 def init_rdkit_templates(path) -> list[CompareObj]:
     """Returns list of templates for cofactor classes.
 

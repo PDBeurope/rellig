@@ -34,22 +34,24 @@ class Drugs:
     Drugs pipeline data model
     """
 
-    def __init__(self, log, args):
-        self.log = log
-        self.args = args
+    def __init__(self, ligand_cif, ligand_type, out_dir, logger):
+        self.ligand_cif = ligand_cif
+        self.ligand_type = ligand_type
+        self.out_dir = out_dir
+        self.logger = logger
 
     def process_entry(self):
-        ligand = parse_ligand(self.args.cif, self.args.ligand_type)
+        ligand = parse_ligand(self.ligand_cif, self.ligand_type)
         drugbank_targets = self.get_drugbank_targets(ligand)
         if drugbank_targets.empty:
-            self.log.info("No target was found for {ligand.id} from DrugBank")
+            self.logger.info("No target was found for {ligand.id} from DrugBank")
             return
 
         drug_targets = drugbank_targets[
             drugbank_targets["pharmacologically_active"] == "yes"
         ]
         if drug_targets.empty:
-            self.log.info(
+            self.logger.info(
                 "None of the targets from DrugBank found for {ligand.id} are pharmacologically active"
             )
             return
@@ -57,7 +59,7 @@ class Drugs:
         # get ligand interacting PDB chains, uniprot ids and ec numbers
         ligand_intx_chains = get_ligand_intx_chains(ligand.id)
         if ligand_intx_chains.empty:
-            self.log.warn(f"No interacting PDB chain was found for {ligand.id}")
+            self.logger.warn(f"No interacting PDB chain was found for {ligand.id}")
             return
 
         ligand_drug_targets = pd.merge(
@@ -69,15 +71,15 @@ class Drugs:
             how="inner",
         )
         if ligand_drug_targets.empty:
-            self.log.info(
+            self.logger.info(
                 f"None of the pharmacologically active targets of {ligand.id} was found in the PDB"
             )
 
         ligand_drug_targets_file = os.path.join(
-            self.args.out_dir, f"{ligand.id}_drug_annotation.tsv"
+            self.out_dir, f"{ligand.id}_drug_annotation.tsv"
         )
 
-        self.log.info(f"Writing drug annotations to {ligand_drug_targets_file}")
+        self.logger.info(f"Writing drug annotations to {ligand_drug_targets_file}")
         ligand_drug_targets.to_csv(ligand_drug_targets_file, sep="\t", index=False)
 
     def get_drugbank_targets(self, component: Component) -> pd.DataFrame:
