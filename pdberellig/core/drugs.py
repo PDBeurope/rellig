@@ -44,7 +44,7 @@ class Drugs:
         ligand = parse_ligand(self.ligand_cif, self.ligand_type)
         drugbank_targets = self.get_drugbank_targets(ligand)
         if drugbank_targets.empty:
-            self.logger.info("No target was found for {ligand.id} from DrugBank")
+            self.logger.info(f"No target was found for {ligand.id} from DrugBank")
             return
 
         drug_targets = drugbank_targets[
@@ -52,7 +52,7 @@ class Drugs:
         ]
         if drug_targets.empty:
             self.logger.info(
-                "None of the targets from DrugBank found for {ligand.id} are pharmacologically active"
+                f"None of the targets from DrugBank found for {ligand.id} are pharmacologically active"
             )
             return
 
@@ -94,7 +94,7 @@ class Drugs:
             "_pdbe_chem_comp_drugbank_targets."
             not in cif_block.get_mmcif_category_names()
         ):
-            return
+            return pd.DataFrame()
         items = ["name", "organism", "uniprot_id", "pharmacologically_active"]
         targets = cif_block.find("_pdbe_chem_comp_drugbank_targets.", items)
         targets_info = defaultdict(list)
