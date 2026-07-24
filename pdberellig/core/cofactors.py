@@ -32,6 +32,8 @@ from pdbeccdutils.core import ccd_reader
 from pdberellig.conf import get_config, get_data_dir
 from pdberellig.core.models import CofactorSim, CompareObj, Similarity
 from pdberellig.helpers.utils import (
+    get_cofactor_details,
+    get_cofactor_ec,
     get_ligand_intx_chains,
     init_rdkit_templates,
     parse_ligand,
@@ -60,11 +62,9 @@ class Cofactors:
         # parse ligand cif file
         component = parse_ligand(self.ligand_cif, self.ligand_type)
         ligand = CompareObj(component.id, component.mol_no_h)
-        templates = init_rdkit_templates(
-            os.path.join(get_data_dir(), get_config("cofactor", "template_path"))
-        )
-        cofactor_details = self._get_cofactor_details()
-        cofactor_details = self._get_cofactor_ec()
+        templates = init_rdkit_templates()
+        cofactor_details = get_cofactor_details()
+        cofactor_ec = get_cofactor_ec()
 
         # get similarity of the ligand to cofactor templates
         cofactor_sim = self.get_similarity(ligand)
@@ -156,14 +156,11 @@ class Cofactors:
 
         cofactor_sim = None
         if not templates:
-            templates = init_rdkit_templates(
-                os.path.join(get_data_dir(), get_config("cofactor", "template_path"))
-            )
+            templates = init_rdkit_templates()
         if not cofactor_details:
-            cofactor_details = self._get_cofactor_details()
-
+            cofactor_details = get_cofactor_details()
         if not cofactor_ec:
-            cofactor_ec = self._get_cofactor_ec()
+            cofactor_ec = get_cofactor_ec()
 
         with ThreadPoolExecutor(max_workers=cpu_count() - 1) as exec:
             future_to_result = {
@@ -275,22 +272,3 @@ class Cofactors:
             )
 
         return representative_sim
-
-    @lru_cache
-    def _get_cofactor_details(self) -> dict:
-        """Returns the threshold and representative details of cofactor
-        classes as dictionary"""
-        path = os.path.join(
-            os.path.join(get_data_dir(), get_config("cofactor", "details")),
-        )
-        with open(path) as f:
-            obj = json.load(f)
-            return {x["template"]: x for x in obj}
-
-    @lru_cache
-    def _get_cofactor_ec(self) -> pd.DataFrame:
-        """Returns the EC numbers allowed for cofactor classes"""
-        path = os.path.join(get_data_dir(), get_config("cofactor", "ec"))
-        cofactor_ec = pd.read_csv(path, dtype={"EC_NO": str, "COFACTOR_ID": int})
-
-        return cofactor_ec

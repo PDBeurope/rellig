@@ -36,7 +36,7 @@ from requests.adapters import HTTPAdapter
 from SPARQLWrapper import JSON, SPARQLWrapper
 from urllib3 import Retry
 
-from pdberellig.conf import get_config
+from pdberellig.conf import get_config, get_data_dir
 from pdberellig.core.models import CompareObj
 
 
@@ -68,12 +68,9 @@ def setup_log(stage, mode):
 
 
 @lru_cache
-def init_rdkit_templates(path) -> list[CompareObj]:
-    """Returns list of templates for cofactor classes.
-
-    Args:
-        path (str): Path to the directory with templates
-    """
+def init_rdkit_templates() -> list[CompareObj]:
+    """Returns list of templates for cofactor classes."""
+    path = os.path.join(get_data_dir(), get_config("cofactor", "template_path"))
 
     templates = [
         CompareObj(x.split(".")[0], Chem.MolFromMolFile(os.path.join(path, x)))
@@ -81,6 +78,29 @@ def init_rdkit_templates(path) -> list[CompareObj]:
     ]
 
     return templates
+
+
+@lru_cache
+def get_cofactor_details() -> dict:
+    """Returns the threshold and representative details of cofactor
+    classes as dictionary"""
+
+    path = os.path.join(
+        os.path.join(get_data_dir(), get_config("cofactor", "details")),
+    )
+    with open(path) as f:
+        obj = json.load(f)
+        return {x["template"]: x for x in obj}
+
+
+@lru_cache
+def get_cofactor_ec() -> pd.DataFrame:
+    """Returns the EC numbers allowed for cofactor classes"""
+
+    path = os.path.join(get_data_dir(), get_config("cofactor", "ec"))
+    cofactor_ec = pd.read_csv(path, dtype={"EC_NO": str, "COFACTOR_ID": int})
+
+    return cofactor_ec
 
 
 def get_ids_to_process_from_file(file_name: str):
