@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>core &mdash; pdberellig 1.0.4 documentation</title>
+  <title>core &mdash; pdberellig 2.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/styles.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=71272d9f"></script>
+        <script src="_static/documentation_options.js?v=51b770b3"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.4
+                2.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -85,6 +85,8 @@
 <li class="toctree-l2"><a class="reference internal" href="pdberellig.helpers.html">helpers</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pdberellig.helpers.html#module-pdberellig.helpers.utils">pdberellig.helpers.utils</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pdberellig.helpers.html#pdberellig.helpers.utils.download_chebi"><code class="docutils literal notranslate"><span class="pre">download_chebi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pdberellig.helpers.html#pdberellig.helpers.utils.get_cofactor_details"><code class="docutils literal notranslate"><span class="pre">get_cofactor_details()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pdberellig.helpers.html#pdberellig.helpers.utils.get_cofactor_ec"><code class="docutils literal notranslate"><span class="pre">get_cofactor_ec()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pdberellig.helpers.html#pdberellig.helpers.utils.get_ids_to_process_from_file"><code class="docutils literal notranslate"><span class="pre">get_ids_to_process_from_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pdberellig.helpers.html#pdberellig.helpers.utils.get_ligand_intx_chains"><code class="docutils literal notranslate"><span class="pre">get_ligand_intx_chains()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pdberellig.helpers.html#pdberellig.helpers.utils.init_rdkit_templates"><code class="docutils literal notranslate"><span class="pre">init_rdkit_templates()</span></code></a></li>
@@ -136,7 +138,7 @@
 <p>Cofactors pipeline data model</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pdberellig.core.cofactors.Cofactors">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pdberellig.core.cofactors.</span></span><span class="sig-name descname"><span class="pre">Cofactors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.core.cofactors.Cofactors" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pdberellig.core.cofactors.</span></span><span class="sig-name descname"><span class="pre">Cofactors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ligand_cif</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ligand_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.core.cofactors.Cofactors" title="Link to this definition"></a></dt>
 <dd><p>Cofactors pipeline data model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pdberellig.core.cofactors.Cofactors.get_representative">
@@ -172,12 +174,17 @@ molecule of a cofactor class</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pdberellig.core.cofactors.Cofactors.get_similarity">
-<span class="sig-name descname"><span class="pre">get_similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ligand</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.core.cofactors.Cofactors.get_similarity" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ligand</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">templates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cofactor_details</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cofactor_ec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.core.cofactors.Cofactors.get_similarity" title="Link to this definition"></a></dt>
 <dd><p>Returns the similarity of query molecule to template and
 representative molecules of cofactor class if it is above defined threshold</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ligand</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompareObj</span></code></span>) – CompareObj of ligand</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ligand</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompareObj</span></code></span>) – CompareObj of ligand</p></li>
+<li><p><strong>templates</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">CompareObj</span></code>]]</span>) – List of CompareObj of tempaltes of cofactors</p></li>
+<li><p><strong>cofactor_details</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>]</span>) – Dictionary of template and representative molecuels of cofactors</p></li>
+<li><p><strong>cofactor_ec</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</span>) – Dataframe of EC numbers associated with cofactors</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">CofactorSim</span></code>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>]</span></p>
@@ -206,7 +213,7 @@ has any overlap with EC numbers of cofactor classes</p></li>
 <span id="pdberellig-core-reactants"></span><h2>pdberellig.core.reactants<a class="headerlink" href="#module-pdberellig.core.reactants" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pdberellig.core.reactants.Reactants">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pdberellig.core.reactants.</span></span><span class="sig-name descname"><span class="pre">Reactants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.core.reactants.Reactants" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pdberellig.core.reactants.</span></span><span class="sig-name descname"><span class="pre">Reactants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ligand_cif</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ligand_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chebi_structure_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimal_ligand_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_chebi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.core.reactants.Reactants" title="Link to this definition"></a></dt>
 <dd><p>Reactants pipeline data model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pdberellig.core.reactants.Reactants.get_reactant_annotation">
@@ -326,7 +333,7 @@ and writes the results to tsv files
 <p>Drugs pipeline data model</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pdberellig.core.drugs.Drugs">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pdberellig.core.drugs.</span></span><span class="sig-name descname"><span class="pre">Drugs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.core.drugs.Drugs" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pdberellig.core.drugs.</span></span><span class="sig-name descname"><span class="pre">Drugs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ligand_cif</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ligand_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.core.drugs.Drugs" title="Link to this definition"></a></dt>
 <dd><p>Drugs pipeline data model</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pdberellig.core.drugs.Drugs.get_drugbank_targets">

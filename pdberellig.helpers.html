@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>helpers &mdash; pdberellig 1.0.4 documentation</title>
+  <title>helpers &mdash; pdberellig 2.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/styles.css" type="text/css" />
@@ -14,7 +14,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=71272d9f"></script>
+        <script src="_static/documentation_options.js?v=51b770b3"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -36,7 +36,7 @@
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.4
+                2.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -84,6 +84,8 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">helpers</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-pdberellig.helpers.utils">pdberellig.helpers.utils</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.download_chebi"><code class="docutils literal notranslate"><span class="pre">download_chebi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.get_cofactor_details"><code class="docutils literal notranslate"><span class="pre">get_cofactor_details()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.get_cofactor_ec"><code class="docutils literal notranslate"><span class="pre">get_cofactor_ec()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.get_ids_to_process_from_file"><code class="docutils literal notranslate"><span class="pre">get_ids_to_process_from_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.get_ligand_intx_chains"><code class="docutils literal notranslate"><span class="pre">get_ligand_intx_chains()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pdberellig.helpers.utils.init_rdkit_templates"><code class="docutils literal notranslate"><span class="pre">init_rdkit_templates()</span></code></a></li>
@@ -149,6 +151,29 @@ ChEBI FTP and saves to the destination folder</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pdberellig.helpers.utils.get_cofactor_details">
+<span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">get_cofactor_details</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.get_cofactor_details" title="Link to this definition"></a></dt>
+<dd><p>Returns the threshold and representative details of cofactor
+classes as dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pdberellig.helpers.utils.get_cofactor_ec">
+<span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">get_cofactor_ec</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.get_cofactor_ec" title="Link to this definition"></a></dt>
+<dd><p>Returns the EC numbers allowed for cofactor classes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pdberellig.helpers.utils.get_ids_to_process_from_file">
 <span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">get_ids_to_process_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.get_ids_to_process_from_file" title="Link to this definition"></a></dt>
 <dd><p>Read in all the items to process from a file.</p>
@@ -183,14 +208,11 @@ and ec number by calling PDBe API</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pdberellig.helpers.utils.init_rdkit_templates">
-<span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">init_rdkit_templates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.init_rdkit_templates" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pdberellig.helpers.utils.</span></span><span class="sig-name descname"><span class="pre">init_rdkit_templates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdberellig.helpers.utils.init_rdkit_templates" title="Link to this definition"></a></dt>
 <dd><p>Returns list of templates for cofactor classes.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Path to the directory with templates</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">CompareObj</span></code>]</span></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">CompareObj</span></code>]</span></p>
 </dd>
 </dl>
 </dd></dl>
