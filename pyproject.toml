@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pdberellig"
-version = "1.0.4"
+version = "2.0.0"
 description = "A toolkit for functional annotation of ligands in the PDB"
 authors = ["Ibrahim Roshan Kunnakkattu <roshan@ebi.ac.uk>"]
 readme = "README.md"
@@ -41,6 +41,9 @@ sphinx-rtd-theme = "^1.3.0"
 sphinx-autodoc-typehints = "^1.24.0"
 myst-parser = "^2.0.0"
 sphinx-markdown-tables = "^0.0.17"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
 
 [build-system]
 requires = ["poetry-core"]
