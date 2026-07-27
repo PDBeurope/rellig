@@ -176,13 +176,11 @@ class Reactants:
         else:
             chebi_structure_file = download_chebi(self.out_dir)
 
-        self.chebi = pd.read_csv(chebi_structure_file, dtype=str, sep="\t")
+        self.chebi = pd.read_csv(chebi_structure_file, sep="\t")
         self.chebi = self.chebi.loc[
             (self.chebi["compound_id"].isin(chebi_ids))
-            & (self.chebi["status_id"] == "1")  # include only ChEBI curated entires
-            & (
-                self.chebi["default_structure"] == "true"
-            ),  # include only with structure
+            & (self.chebi["status_id"] == 1)  # include only ChEBI curated entires
+            & (self.chebi["default_structure"]),  # include only with structure
             ["compound_id", "molfile"],
         ]
         for _, row in self.chebi.iterrows():
