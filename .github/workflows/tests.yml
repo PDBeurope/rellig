@@ -4,6 +4,9 @@ name: pdberellig tests
 
 on: push
 
+permissions:
+  contents: read
+
 jobs:
   pytest:
     name: Run unit tests
