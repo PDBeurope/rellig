@@ -66,7 +66,9 @@ class Cofactors:
         cofactor_ec = get_cofactor_ec()
 
         # get similarity of the ligand to cofactor templates
-        cofactor_sim = self.get_similarity(ligand)
+        cofactor_sim = self.get_similarity(
+            ligand, templates, cofactor_details, cofactor_ec
+        )
         if cofactor_sim:
             representative_score = round(
                 cofactor_sim.representative_sim.result.similarity_score, 3
@@ -154,11 +156,11 @@ class Cofactors:
         """
 
         cofactor_sim = None
-        if not templates:
+        if templates is None:
             templates = init_rdkit_templates()
-        if not cofactor_details:
+        if cofactor_details is None:
             cofactor_details = get_cofactor_details()
-        if not cofactor_ec:
+        if cofactor_ec is None:
             cofactor_ec = get_cofactor_ec()
 
         with ThreadPoolExecutor(max_workers=cpu_count() - 1) as exec:
