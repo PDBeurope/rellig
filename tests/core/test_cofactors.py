@@ -181,7 +181,7 @@ class TestProcessEntry:
         monkeypatch.setattr(cofactors_module, "parse_ligand", lambda *a, **k: component)
 
         cofactors = make_cofactors(tmp_path, logger)
-        monkeypatch.setattr(cofactors, "get_similarity", lambda ligand: None)
+        monkeypatch.setattr(cofactors, "get_similarity", lambda *a, **k: None)
 
         cofactors.process_entry()
 
@@ -199,7 +199,7 @@ class TestProcessEntry:
             Similarity("FAD", "LIG", SimpleNamespace(similarity_score=0.9)),
         )
         cofactors = make_cofactors(tmp_path, logger)
-        monkeypatch.setattr(cofactors, "get_similarity", lambda ligand: sim)
+        monkeypatch.setattr(cofactors, "get_similarity", lambda *a, **k: sim)
         monkeypatch.setattr(
             cofactors_module, "get_ligand_intx_chains", lambda ligand_id: pd.DataFrame()
         )
@@ -221,7 +221,7 @@ class TestProcessEntry:
             Similarity("FAD", "LIG", SimpleNamespace(similarity_score=0.9)),
         )
         cofactors = make_cofactors(tmp_path, logger)
-        monkeypatch.setattr(cofactors, "get_similarity", lambda ligand: sim)
+        monkeypatch.setattr(cofactors, "get_similarity", lambda *a, **k: sim)
 
         intx_chains = pd.DataFrame(
             {
@@ -252,7 +252,7 @@ class TestProcessEntry:
             Similarity("FAD", "LIG", SimpleNamespace(similarity_score=0.9)),
         )
         cofactors = make_cofactors(tmp_path, logger)
-        monkeypatch.setattr(cofactors, "get_similarity", lambda ligand: sim)
+        monkeypatch.setattr(cofactors, "get_similarity", lambda *a, **k: sim)
 
         intx_chains = pd.DataFrame(
             {
