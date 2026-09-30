@@ -169,7 +169,7 @@ class Cofactors:
                     template.similarity_to,
                     ligand,
                     cofactor_details[template.id]["threshold"] - 0.01,
-                    thimout=300,
+                    timeout=300,
                 ): template.id
                 for template in templates
             }
