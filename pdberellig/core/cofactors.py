@@ -169,7 +169,7 @@ class Cofactors:
                     template.similarity_to,
                     ligand,
                     cofactor_details[template.id]["threshold"] - 0.01,
-                    timeout=300,
+                    timeout=60,
                 ): template.id
                 for template in templates
             }
@@ -268,7 +268,7 @@ class Cofactors:
             f"Running similarity to representative" f" {representative.id}"
         )
 
-        representative_sim = representative.similarity_to(query)
+        representative_sim = representative.similarity_to(query, timeout=60)
         if not representative_sim.result:
             raise Exception(
                 f"Error occured in comparing {representative_sim.target_id} "
