@@ -17,8 +17,10 @@ class CompareObj:
     id: str
     mol: rdkit.Chem.rdchem.Mol
 
-    def similarity_to(self, other, threshold=0.01):
-        result = parity_method.compare_molecules(self.mol, other.mol, threshold)
+    def similarity_to(self, other, threshold=0.01, timeout=40):
+        result = parity_method.compare_molecules(
+            self.mol, other.mol, threshold, timeout=timeout
+        )
         return Similarity(self.id, other.id, result)
 
 

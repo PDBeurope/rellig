@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-10-06
+
+### Added
+
+- `CompareObj.similarity_to` accepts an optional `timeout` argument (default 40
+  seconds) that is passed through to the PARITY comparison.
+
+### Changed
+
+- Cofactor template and representative similarity comparisons now use a
+  60-second timeout, so a slow comparison no longer blocks the pipeline
+  indefinitely.
+- Updated the B12, F43, and HEA representative CIF files with latest
+- Raised the minimum `pdbeccdutils` version to 2.0.0.
+
+### Fixed
+
+- Replaced the deprecated `logger.warn` call with `logger.warning` in the
+  cofactors pipeline.
+
 ## [2.0.0] - 2026-07-27
 
 ### Changed

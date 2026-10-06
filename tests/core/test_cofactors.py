@@ -15,7 +15,7 @@ def make_cofactors(out_dir, logger, ligand_cif="ignored.cif", ligand_type="CCD")
 def make_template(template_id, similarity_score):
     """A CompareObj whose similarity_to is stubbed instead of running RDKit/PARITY."""
     template = CompareObj(template_id, None)
-    template.similarity_to = lambda other, threshold=0.01: Similarity(
+    template.similarity_to = lambda other, threshold=0.01, timeout=None: Similarity(
         template_id, other.id, SimpleNamespace(similarity_score=similarity_score)
     )
     return template
@@ -115,7 +115,7 @@ class TestGetSimilarity:
 
         broken = CompareObj("BROKEN", None)
 
-        def raise_error(other, threshold):
+        def raise_error(other, threshold, timeout=None):
             raise RuntimeError("boom")
 
         broken.similarity_to = raise_error
@@ -135,7 +135,7 @@ class TestGetSimilarity:
         # the exception on "broken" is swallowed and logged; get_similarity
         # itself must not raise.
         assert result is None
-        assert logger.warn.called
+        assert logger.warning.called
 
 
 class TestWriteCofactorResults:

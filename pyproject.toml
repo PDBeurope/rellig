@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pdberellig"
-version = "2.0.1"
+version = "2.1.0"
 description = "A toolkit for functional annotation of ligands in the PDB"
 authors = ["Ibrahim Roshan Kunnakkattu <roshan@ebi.ac.uk>"]
 readme = "README.md"
@@ -21,7 +21,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.10,<4"
 click = ">=8.4.0,<9.0.0"
-pdbeccdutils = ">=1.0.4"
+pdbeccdutils = ">=2.0.0"
 sparqlwrapper = "^2.0.0"
 pandas = ">=2.2.3,<3.0.0"
 
